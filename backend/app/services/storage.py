@@ -16,6 +16,8 @@ RAW_FILE = "raw.csv"  # the original upload, never changed
 DATA_FILE = "data.parquet"  # the working data (cleaning fixes are applied here)
 TYPED_FILE = "typed.parquet"  # derived: data converted to the inferred types
 PROFILE_FILE = "profile.json"  # derived: types, roles, stats, warnings
+TYPE_OVERRIDES_FILE = "type_overrides.json"  # column types the user set by hand
+CLEANING_LOG_FILE = "cleaning_log.json"  # every cleaning fix applied, in order
 DERIVED_FILES = (TYPED_FILE, PROFILE_FILE)
 
 

@@ -8,8 +8,9 @@ from fastapi import APIRouter, File, Response, UploadFile, status
 
 from app.core.config import get_settings
 from app.core.errors import AppError
+from app.models.cleaning import CleanRequest, CleanResult
 from app.models.session import SessionCreated
-from app.services import storage
+from app.services import cleaning, storage
 from app.services.csv_reader import read_csv_bytes
 from app.services.profile_service import get_profile
 
@@ -70,3 +71,21 @@ def delete_session(session_id: str) -> Response:
 def read_profile(session_id: str, refresh: bool = False) -> dict:
     """Column types, roles, statistics and data-quality warnings. Cached after the first call."""
     return get_profile(session_id, refresh=refresh)
+
+
+@router.post("/{session_id}/clean", response_model=CleanResult)
+def clean(session_id: str, request: CleanRequest) -> CleanResult:
+    """Apply one cleaning fix, log it, and return the rebuilt profile."""
+    applied = cleaning.apply_fix(session_id, request)
+    return CleanResult(applied=applied, profile=get_profile(session_id))
+
+
+@router.get("/{session_id}/clean/log")
+def cleaning_log(session_id: str) -> dict:
+    return cleaning.get_log(session_id)
+
+
+@router.post("/{session_id}/clean/reset")
+def reset_cleaning(session_id: str) -> dict:
+    """Undo all fixes and return the profile of the original data."""
+    return cleaning.reset(session_id)

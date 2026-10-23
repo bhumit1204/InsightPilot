@@ -147,12 +147,62 @@ def infer_column(name: str, series: pd.Series) -> tuple[ColumnType, pd.Series]:
     return ColumnType(name, "text", original), series
 
 
-def infer_types(df: pd.DataFrame) -> tuple[list[ColumnType], pd.DataFrame]:
-    """Return the type of every column and a copy of the data converted to those types."""
+SUPPORTED_TYPES = ("numeric", "datetime", "boolean", "text")
+
+
+def convert_column(name: str, series: pd.Series, override: dict) -> tuple[ColumnType, pd.Series]:
+    """Convert a column to the type the user chose, ignoring the 95% rule.
+
+    Values that cannot be converted become empty; their count is reported as unparsed_values.
+    """
+    target = override["type"]
+    original = str(series.dtype)
+    non_empty = int(_non_empty_text(series).shape[0])
+    details: dict = {"overridden": True}
+
+    if target == "text":
+        return ColumnType(name, "text", original, 1.0, details), series.astype("string")
+
+    if target == "numeric":
+        parsed, _, extra = parse_numeric(series)
+        details |= extra
+    elif target == "datetime":
+        fmt = override.get("format")
+        text = series.astype("string").str.strip()
+        if fmt:
+            parsed = pd.to_datetime(text, format=fmt, errors="coerce")
+        else:
+            parsed = pd.to_datetime(text, format="mixed", dayfirst=True, errors="coerce")
+        details["format"] = fmt or "mixed"
+    elif target == "boolean":
+        parsed, ratio = parse_boolean(series)
+        if ratio == 0:
+            parsed = pd.Series(pd.NA, index=series.index, dtype="boolean")
+    else:
+        raise ValueError(f"Unsupported type: {target}")
+
+    converted = int(parsed.notna().sum())
+    ratio = converted / non_empty if non_empty else 1.0
+    if converted < non_empty:
+        details["unparsed_values"] = non_empty - converted
+    return ColumnType(name, target, original, round(ratio, 4), details), parsed
+
+
+def infer_types(
+    df: pd.DataFrame, overrides: dict[str, dict] | None = None
+) -> tuple[list[ColumnType], pd.DataFrame]:
+    """Return the type of every column and a copy of the data converted to those types.
+
+    overrides maps a column name to a forced type, e.g. {"pincode": {"type": "text"}}.
+    """
+    overrides = overrides or {}
     types: list[ColumnType] = []
     converted = {}
     for name in df.columns:
-        info, parsed = infer_column(name, df[name])
+        if name in overrides:
+            info, parsed = convert_column(name, df[name], overrides[name])
+        else:
+            info, parsed = infer_column(name, df[name])
         types.append(info)
         converted[name] = parsed
     return types, pd.DataFrame(converted, index=df.index)

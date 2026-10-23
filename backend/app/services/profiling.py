@@ -181,6 +181,17 @@ def build_warnings(columns: list[dict], duplicates: int, time: dict | None) -> l
                     "fix": "drop_column",
                 }
             )
+        if col["details"].get("unparsed_values"):
+            warnings.append(
+                {
+                    "code": "CONVERSION_LOSS",
+                    "column": name,
+                    "message": (
+                        f"{col['details']['unparsed_values']} values in '{name}' could not be "
+                        f"read as {col['type']} and are treated as empty."
+                    ),
+                }
+            )
         if col["details"].get("dayfirst_ambiguous"):
             warnings.append(
                 {
@@ -201,9 +212,11 @@ def build_warnings(columns: list[dict], duplicates: int, time: dict | None) -> l
     return warnings
 
 
-def build_profile(raw_df: pd.DataFrame) -> tuple[dict, pd.DataFrame]:
+def build_profile(
+    raw_df: pd.DataFrame, overrides: dict[str, dict] | None = None
+) -> tuple[dict, pd.DataFrame]:
     """Return the profile and the data converted to its inferred types."""
-    types, df = infer_types(raw_df)
+    types, df = infer_types(raw_df, overrides)
 
     columns: list[dict] = []
     for info in types:

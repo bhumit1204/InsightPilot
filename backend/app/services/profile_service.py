@@ -14,7 +14,8 @@ def get_profile(session_id: str, refresh: bool = False) -> dict:
             return cached
 
     df = storage.load_dataframe(session_id)
-    profile, typed = build_profile(df)
+    overrides = storage.read_json(session_id, storage.TYPE_OVERRIDES_FILE) or {}
+    profile, typed = build_profile(df, overrides)
     profile = to_jsonable(profile) | {"generated_at": datetime.now(UTC).isoformat()}
 
     folder = storage.get_existing_session(session_id)
