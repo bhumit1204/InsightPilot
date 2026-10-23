@@ -1,0 +1,73 @@
+# ---------- Secrets & environment ----------
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# ---------- Python ----------
+venv/
+.venv/
+env/
+ENV/
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+dist/
+*.egg-info/
+.eggs/
+pip-wheel-metadata/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+.ipynb_checkpoints/
+
+# ---------- Node / Next.js ----------
+node_modules/
+.next/
+out/
+.vercel/
+.turbo/
+next-env.d.ts
+*.tsbuildinfo
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ---------- App data (uploads, sessions, caches) ----------
+sessions/
+backend/sessions/
+backend/data/
+uploads/
+*.parquet
+dump.rdb
+
+# Sample datasets: keep small demo files, ignore big or private ones
+samples/*
+!samples/.gitkeep
+!samples/README.md
+!samples/*.sample.csv
+
+# ---------- Logs ----------
+logs/
+*.log
+
+# ---------- Editors & OS ----------
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ---------- Docker ----------
+docker-compose.override.yml
