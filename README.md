@@ -4,7 +4,7 @@
 
 InsightPilot is a data analyst assistant for small businesses and non-technical teams. Upload any CSV (sales, HR, expenses) and it profiles the data, builds charts, writes plain-language insights, answers your questions, and explains unusual jumps and dips using the data itself and news from that time.
 
-> **Status:** early development. Phases 1–2 of 15 are complete: the backend accepts CSV uploads and stores them safely. See the [roadmap](#roadmap) for what works today.
+> **Status:** early development. Phases 1–3 of 15 are complete: the backend accepts CSV uploads, profiles every column, offers one-click cleaning fixes and guesses what the data is about. See the [roadmap](#roadmap) for what works today.
 
 ---
 
@@ -39,7 +39,9 @@ InsightPilot is built in two versions.
 | Feature | Version | Status |
 | --- | --- | --- |
 | CSV upload with encoding and delimiter detection | v1 | Done |
-| Data profile: types, roles, missing values, quality report | v1 | Planned |
+| Data profile: types, roles, missing values, quality report | v1 | Done |
+| One-click cleaning fixes with undo | v1 | Done |
+| Rule-based context guess: domain, region, main metric | v1 | Done |
 | Auto-generated charts and rule-based insights | v1 | Planned |
 | Sentence-style question builder and suggested questions | v1 | Planned |
 | "Why did this change?" driver breakdown | v1 | Planned |
@@ -66,7 +68,7 @@ insightpilot/
 │   │   ├── api/          # route handlers
 │   │   ├── core/         # config, errors, logging
 │   │   ├── models/       # request and response schemas
-│   │   ├── services/     # storage, CSV reader, analysis logic
+│   │   ├── services/     # storage, CSV reader, profiling, cleaning, context
 │   │   └── main.py       # app entry point
 │   ├── sessions/         # uploaded data (git-ignored)
 │   ├── tests/
@@ -102,7 +104,7 @@ cp .env.example .env        # Windows: copy .env.example .env
 uvicorn app.main:app --reload
 ```
 
-Open http://127.0.0.1:8000/docs for the interactive API docs. Try `POST /api/sessions` with a file from `samples/`.
+Open http://127.0.0.1:8000/docs for the interactive API docs. Try `POST /api/sessions` with a file from `samples/`, then call `GET /api/sessions/{session_id}/profile` and `GET /api/sessions/{session_id}/context` with the returned ID.
 
 ### Sample datasets
 
@@ -129,6 +131,12 @@ ruff format --check .
 | GET | `/api/health` | Health check |
 | POST | `/api/sessions` | Upload a CSV (max 50 MB); returns a session ID, row and column counts, column names, detected encoding and delimiter |
 | DELETE | `/api/sessions/{session_id}` | Delete a session and its data |
+| GET | `/api/sessions/{session_id}/profile` | Column types, roles, statistics, time grain, gaps and quality warnings (cached; add `?refresh=true` to rebuild) |
+| POST | `/api/sessions/{session_id}/clean` | Apply one cleaning fix and return the rebuilt profile |
+| GET | `/api/sessions/{session_id}/clean/log` | Every cleaning fix applied, in order |
+| POST | `/api/sessions/{session_id}/clean/reset` | Undo all fixes and rebuild from the original upload |
+| GET | `/api/sessions/{session_id}/context` | Guessed domain, region, main metric and time grain, with the options for each field |
+| PUT | `/api/sessions/{session_id}/context` | Confirm the context, optionally changing any field |
 
 Example response from `POST /api/sessions`:
 
@@ -145,7 +153,64 @@ Example response from `POST /api/sessions`:
 }
 ```
 
-Each upload is stored in its own folder as `raw.csv` (original), `data.parquet` (clean data) and `metadata.json`.
+### Profiling
+
+Every column gets a **type** (numeric, date, yes/no, text) and a **role**:
+
+| Role | Meaning | Example |
+| --- | --- | --- |
+| Time | A date column | `date`, `hire_date` |
+| Metric | A number worth adding or averaging | `revenue_inr`, `age` |
+| Category | Text with a few distinct values | `region`, `vendor` |
+| Identifier | Unique per row; left out of charts | `order_line_id` |
+| Free text | Long, varied text | comments |
+
+Numbers like `₹1,23,456.00`, `12.5%` and `(1,200)` are parsed, and dates are matched against 16 common formats. A column only counts as numeric or date if at least 95% of its values parse. Ambiguous dates such as `03/04/2024` default to day-first and are flagged for the user to confirm.
+
+The quality report covers missing values, duplicates, outliers (IQR rule), constant columns and missing periods in time series.
+
+### Cleaning fixes
+
+| Action | What it does |
+| --- | --- |
+| `drop_duplicates` | Remove identical rows |
+| `drop_missing_rows` | Remove rows where a column is empty |
+| `fill_missing` | Fill empty cells with a value, mean, median, mode or zero |
+| `drop_column` | Remove a column |
+| `set_type` | Override the detected type, for example a pincode as text or dates as `%m/%d/%Y` |
+
+Example request:
+
+```json
+{ "action": "fill_missing", "column": "vendor", "strategy": "value", "value": "Unknown" }
+```
+
+Every fix is logged, and the original upload is never changed, so all fixes can be undone.
+
+### Context guess
+
+Without any AI, InsightPilot guesses the domain from column names, the region from currency symbols and place names, and the main metric from money-like column names. On the sample datasets:
+
+| Sample | Domain | Region | Main metric | Grain |
+| --- | --- | --- | --- | --- |
+| Retail sales | Retail sales | India (INR) | `revenue_inr` | Daily |
+| HR employees | HR and people | India (INR) | `annual_salary_inr` | Monthly |
+| Business expenses | Business expenses | India (INR) | `amount` | Monthly |
+
+The user always confirms or edits the guess, and each guess comes with its reasons.
+
+### Session storage
+
+Each upload gets its own folder:
+
+| File | Contents |
+| --- | --- |
+| `raw.csv` | The original upload, never changed |
+| `data.parquet` | Working data, with cleaning fixes applied |
+| `typed.parquet` | Data converted to the detected types |
+| `profile.json` | Types, roles, statistics and warnings |
+| `context.json` | Domain, region, main metric and time grain |
+| `type_overrides.json`, `cleaning_log.json` | Type choices and fixes made by the user |
 
 All errors use one format:
 
@@ -160,8 +225,8 @@ All errors use one format:
 | 0 | Project scaffold | v1 | Done |
 | 1 | Backend foundations | v1 | Done |
 | 2 | Upload and storage | v1 | Done |
-| 3 | Profiling, cleaning and rule-based context | v1 | Next |
-| 4 | Frontend foundations | v1 | |
+| 3 | Profiling, cleaning and rule-based context | v1 | Done |
+| 4 | Frontend foundations | v1 | Next |
 | 5 | Charts and template insights | v1 | |
 | 6 | Intent engine and question builder | v1 | |
 | 7 | "Why did this change?" analysis | v1 | |
