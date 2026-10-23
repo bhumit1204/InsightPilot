@@ -1,4 +1,4 @@
-# InsightPilot
+﻿# InsightPilot
 
 **Upload a CSV, get the story behind your data.**
 
@@ -61,19 +61,19 @@ InsightPilot is built in two versions.
 
 ```
 insightpilot/
-├── backend/
-│   ├── app/
-│   │   ├── api/          # route handlers
-│   │   ├── core/         # config, errors, logging
-│   │   ├── models/       # request and response schemas
-│   │   ├── services/     # analysis logic
-│   │   └── main.py       # app entry point
-│   ├── tests/
-│   ├── requirements.txt
-│   ├── requirements-dev.txt
-│   └── pyproject.toml
-├── frontend/             # coming in Phase 4
-└── samples/              # demo datasets
+â”œâ”€â”€ backend/
+â”‚   â”œâ”€â”€ app/
+â”‚   â”‚   â”œâ”€â”€ api/          # route handlers
+â”‚   â”‚   â”œâ”€â”€ core/         # config, errors, logging
+â”‚   â”‚   â”œâ”€â”€ models/       # request and response schemas
+â”‚   â”‚   â”œâ”€â”€ services/     # analysis logic
+â”‚   â”‚   â””â”€â”€ main.py       # app entry point
+â”‚   â”œâ”€â”€ tests/
+â”‚   â”œâ”€â”€ requirements.txt
+â”‚   â”œâ”€â”€ requirements-dev.txt
+â”‚   â””â”€â”€ pyproject.toml
+â”œâ”€â”€ frontend/             # coming in Phase 4
+â””â”€â”€ samples/              # demo datasets
 ```
 
 ## Getting started
@@ -87,7 +87,7 @@ insightpilot/
 
 ```bash
 git clone https://github.com/bhumit1204/InsightPilot.git
-cd insightpilot/backend
+cd InsightPilot/backend
 
 python -m venv venv
 # Windows
