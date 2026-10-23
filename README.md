@@ -4,7 +4,7 @@
 
 InsightPilot is a data analyst assistant for small businesses and non-technical teams. Upload any CSV (sales, HR, expenses) and it profiles the data, builds charts, writes plain-language insights, answers your questions, and explains unusual jumps and dips using the data itself and news from that time.
 
-> **Status:** early development. Phase 1 of 15 (backend foundations) is complete. See the [roadmap](#roadmap) for what works today.
+> **Status:** early development. Phases 1–2 of 15 are complete: the backend accepts CSV uploads and stores them safely. See the [roadmap](#roadmap) for what works today.
 
 ---
 
@@ -38,7 +38,7 @@ InsightPilot is built in two versions.
 
 | Feature | Version | Status |
 | --- | --- | --- |
-| CSV upload with encoding and delimiter detection | v1 | Planned |
+| CSV upload with encoding and delimiter detection | v1 | Done |
 | Data profile: types, roles, missing values, quality report | v1 | Planned |
 | Auto-generated charts and rule-based insights | v1 | Planned |
 | Sentence-style question builder and suggested questions | v1 | Planned |
@@ -52,7 +52,7 @@ InsightPilot is built in two versions.
 
 ## Tech stack
 
-- **Backend:** Python, FastAPI, Pydantic, Pandas
+- **Backend:** Python, FastAPI, Pydantic, Pandas, PyArrow (Parquet storage)
 - **Analysis (planned):** statsmodels, ruptures, holidays
 - **Frontend (planned):** Next.js, TypeScript, Tailwind CSS, shadcn/ui, ECharts
 - **Tooling:** pytest, ruff, GitHub Actions
@@ -61,19 +61,20 @@ InsightPilot is built in two versions.
 
 ```
 insightpilot/
-â”œâ”€â”€ backend/
-â”‚   â”œâ”€â”€ app/
-â”‚   â”‚   â”œâ”€â”€ api/          # route handlers
-â”‚   â”‚   â”œâ”€â”€ core/         # config, errors, logging
-â”‚   â”‚   â”œâ”€â”€ models/       # request and response schemas
-â”‚   â”‚   â”œâ”€â”€ services/     # analysis logic
-â”‚   â”‚   â””â”€â”€ main.py       # app entry point
-â”‚   â”œâ”€â”€ tests/
-â”‚   â”œâ”€â”€ requirements.txt
-â”‚   â”œâ”€â”€ requirements-dev.txt
-â”‚   â””â”€â”€ pyproject.toml
-â”œâ”€â”€ frontend/             # coming in Phase 4
-â””â”€â”€ samples/              # demo datasets
+├── backend/
+│   ├── app/
+│   │   ├── api/          # route handlers
+│   │   ├── core/         # config, errors, logging
+│   │   ├── models/       # request and response schemas
+│   │   ├── services/     # storage, CSV reader, analysis logic
+│   │   └── main.py       # app entry point
+│   ├── sessions/         # uploaded data (git-ignored)
+│   ├── tests/
+│   ├── requirements.txt
+│   ├── requirements-dev.txt
+│   └── pyproject.toml
+├── frontend/             # coming in Phase 4
+└── samples/              # demo datasets and their generator
 ```
 
 ## Getting started
@@ -101,7 +102,17 @@ cp .env.example .env        # Windows: copy .env.example .env
 uvicorn app.main:app --reload
 ```
 
-Open http://127.0.0.1:8000/docs for the interactive API docs.
+Open http://127.0.0.1:8000/docs for the interactive API docs. Try `POST /api/sessions` with a file from `samples/`.
+
+### Sample datasets
+
+Three demo datasets with known, planted events (COVID-19 lockdown, Diwali spikes, a price cut, a regional slump and more) live in `samples/`. Regenerate them from the repo root with:
+
+```bash
+python samples/generate_samples.py
+```
+
+See [samples/README.md](samples/README.md) for every planted event and the effect it should have.
 
 ### Run tests and lint
 
@@ -116,6 +127,25 @@ ruff format --check .
 | Method | Endpoint | Description |
 | --- | --- | --- |
 | GET | `/api/health` | Health check |
+| POST | `/api/sessions` | Upload a CSV (max 50 MB); returns a session ID, row and column counts, column names, detected encoding and delimiter |
+| DELETE | `/api/sessions/{session_id}` | Delete a session and its data |
+
+Example response from `POST /api/sessions`:
+
+```json
+{
+  "session_id": "910178cb5bd24568bdf336f7bea6a813",
+  "filename": "retail_sales.sample.csv",
+  "rows": 54855,
+  "columns": 8,
+  "column_names": ["order_line_id", "date", "region", "category", "product",
+                   "units_sold", "unit_price_inr", "revenue_inr"],
+  "encoding": "utf-8",
+  "delimiter": ","
+}
+```
+
+Each upload is stored in its own folder as `raw.csv` (original), `data.parquet` (clean data) and `metadata.json`.
 
 All errors use one format:
 
@@ -129,8 +159,8 @@ All errors use one format:
 | --- | --- | --- | --- |
 | 0 | Project scaffold | v1 | Done |
 | 1 | Backend foundations | v1 | Done |
-| 2 | Upload and storage | v1 | Next |
-| 3 | Profiling, cleaning and rule-based context | v1 | |
+| 2 | Upload and storage | v1 | Done |
+| 3 | Profiling, cleaning and rule-based context | v1 | Next |
 | 4 | Frontend foundations | v1 | |
 | 5 | Charts and template insights | v1 | |
 | 6 | Intent engine and question builder | v1 | |

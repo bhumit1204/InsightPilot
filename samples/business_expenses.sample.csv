@@ -1,0 +1,439 @@
+date,category,vendor,amount,payment_method
+01/01/2023,Office Supplies,Amazon Business,"₹3,436.41",UPI
+05/01/2023,Rent,Shree Properties,"₹85,000.00",Bank transfer
+05/01/2023,Travel,Uber,"₹1,759.04",Credit card
+06/01/2023,Travel,Uber,"₹1,183.18",UPI
+06/01/2023,Travel,,"₹1,587.60",UPI
+08/01/2023,Marketing,Meta Ads,"₹20,830.17",Cash
+10/01/2023,Salaries,Payroll,"₹424,000.00",Bank transfer
+14/01/2023,Marketing,Meta Ads,"₹18,171.13",Cash
+15/01/2023,Utilities,MSEDCL,"₹9,791.61",UPI
+17/01/2023,Software,Cloud subscriptions,"₹12,500.00",Credit card
+21/01/2023,Office Supplies,Amazon Business,"₹5,088.36",UPI
+26/01/2023,Office Supplies,Amazon Business,₹971.87,Cash
+04/02/2023,Travel,Uber,"₹1,403.79",Cash
+05/02/2023,Rent,Shree Properties,"₹85,000.00",Bank transfer
+07/02/2023,Meals,Swiggy,₹733.71,Credit card
+07/02/2023,Travel,Uber,₹845.75,Credit card
+10/02/2023,Marketing,Meta Ads,"₹19,208.69",Credit card
+10/02/2023,Salaries,,"₹428,000.00",Bank transfer
+15/02/2023,Utilities,MSEDCL,"₹10,135.16",UPI
+17/02/2023,Software,Cloud subscriptions,"₹12,500.00",Credit card
+23/02/2023,Meals,Swiggy,₹581.78,Cash
+25/02/2023,Marketing,Meta Ads,"₹13,660.70",Cash
+27/02/2023,Travel,Uber,"₹1,453.45",Cash
+27/02/2023,Marketing,Meta Ads,"₹5,744.43",Cash
+05/03/2023,Travel,Uber,"₹1,048.35",Cash
+05/03/2023,Rent,Shree Properties,"₹85,000.00",Bank transfer
+07/03/2023,Marketing,Meta Ads,"₹6,718.05",UPI
+10/03/2023,Salaries,Payroll,"₹432,000.00",Bank transfer
+13/03/2023,Meals,Swiggy,₹762.55,Cash
+15/03/2023,Utilities,MSEDCL,"₹8,856.49",UPI
+17/03/2023,Software,Cloud subscriptions,"₹12,500.00",Credit card
+19/03/2023,Meals,Swiggy,₹579.09,UPI
+19/03/2023,Office Supplies,,₹599.36,Credit card
+21/03/2023,Office Supplies,Amazon Business,"₹1,765.13",UPI
+04/04/2023,Marketing,Meta Ads,"₹5,762.99",UPI
+05/04/2023,Rent,Shree Properties,"₹85,000.00",Bank transfer
+10/04/2023,Salaries,Payroll,"₹436,000.00",Bank transfer
+11/04/2023,Marketing,Meta Ads,"₹12,033.59",UPI
+12/04/2023,Office Supplies,Amazon Business,"₹3,748.19",UPI
+13/04/2023,Office Supplies,Amazon Business,"₹4,712.84",Cash
+14/04/2023,Travel,Uber,"₹1,573.64",Credit card
+15/04/2023,Utilities,MSEDCL,"₹11,693.76",UPI
+17/04/2023,Software,Cloud subscriptions,"₹12,500.00",Credit card
+23/04/2023,Marketing,Meta Ads,"₹16,657.58",Credit card
+05/05/2023,Meals,Swiggy,₹966.10,Cash
+05/05/2023,Rent,Shree Properties,"₹85,000.00",Bank transfer
+07/05/2023,Travel,Uber,"₹1,435.74",UPI
+08/05/2023,Office Supplies,Amazon Business,"₹3,842.25",UPI
+08/05/2023,Travel,Uber,₹277.51,Credit card
+09/05/2023,Travel,Uber,"₹1,599.35",Cash
+10/05/2023,Salaries,Payroll,"₹440,000.00",Bank transfer
+14/05/2023,Office Supplies,Amazon Business,"₹4,024.17",UPI
+15/05/2023,Utilities,MSEDCL,"₹11,075.61",UPI
+17/05/2023,Software,Cloud subscriptions,"₹12,500.00",Credit card
+18/05/2023,Marketing,Meta Ads,"₹13,566.85",Cash
+26/05/2023,Marketing,Meta Ads,"₹18,262.85",Credit card
+03/06/2023,Marketing,Meta Ads,"₹6,016.72",Cash
+05/06/2023,Rent,Shree Properties,"₹85,000.00",Bank transfer
+08/06/2023,Marketing,Meta Ads,"₹8,106.55",UPI
+08/06/2023,Travel,Uber,₹571.01,Credit card
+09/06/2023,Office Supplies,Amazon Business,₹495.44,Cash
+10/06/2023,Salaries,Payroll,"₹444,000.00",Bank transfer
+15/06/2023,Utilities,MSEDCL,"₹13,749.50",UPI
+17/06/2023,Software,Cloud subscriptions,"₹12,500.00",Credit card
+17/06/2023,Marketing,Meta Ads,"₹16,577.68",UPI
+21/06/2023,Marketing,Meta Ads,"₹23,926.79",Cash
+27/06/2023,Meals,Swiggy,"₹1,597.07",Credit card
+01/07/2023,Marketing,Meta Ads,"₹19,966.23",Cash
+03/07/2023,Travel,Uber,"₹1,187.47",Cash
+05/07/2023,Rent,Shree Properties,"₹85,000.00",Bank transfer
+10/07/2023,Salaries,Payroll,"₹448,000.00",Bank transfer
+13/07/2023,Travel,,₹461.50,UPI
+14/07/2023,Office Supplies,Amazon Business,"₹3,237.02",UPI
+15/07/2023,Utilities,MSEDCL,"₹9,023.23",UPI
+17/07/2023,Software,Cloud subscriptions,"₹12,500.00",Credit card
+26/07/2023,Office Supplies,Amazon Business,"₹5,874.95",Cash
+27/07/2023,Marketing,Meta Ads,"₹7,185.08",Cash
+27/07/2023,Meals,Swiggy,"₹2,090.63",Cash
+05/08/2023,Rent,Shree Properties,"₹85,000.00",Bank transfer
+10/08/2023,Salaries,Payroll,"₹452,000.00",Bank transfer
+10/08/2023,Travel,Uber,₹432.07,Credit card
+15/08/2023,Utilities,MSEDCL,"₹8,214.12",UPI
+17/08/2023,Software,Cloud subscriptions,"₹12,500.00",Credit card
+25/08/2023,Marketing,Meta Ads,"₹20,528.02",UPI
+25/08/2023,Meals,Swiggy,"₹2,026.35",Credit card
+26/08/2023,Travel,Uber,"₹1,725.39",Credit card
+26/08/2023,Marketing,Meta Ads,"₹9,619.27",Cash
+26/08/2023,Marketing,Meta Ads,"₹14,289.42",Cash
+02/09/2023,Office Supplies,Amazon Business,"₹4,260.04",Cash
+03/09/2023,Marketing,Meta Ads,"₹7,028.84",UPI
+05/09/2023,Rent,Shree Properties,"₹85,000.00",Bank transfer
+10/09/2023,Salaries,Payroll,"₹456,000.00",Bank transfer
+10/09/2023,Travel,Uber,"₹1,425.52",UPI
+12/09/2023,Office Supplies,Amazon Business,"₹5,015.64",UPI
+15/09/2023,Utilities,MSEDCL,"₹9,393.59",UPI
+16/09/2023,Marketing,Meta Ads,"₹12,804.85",Credit card
+17/09/2023,Software,Cloud subscriptions,"₹12,500.00",Credit card
+20/09/2023,Meals,Swiggy,₹958.67,UPI
+22/09/2023,Meals,Swiggy,"₹1,653.26",UPI
+24/09/2023,Meals,Swiggy,₹614.37,Cash
+26/09/2023,Meals,Swiggy,"₹2,488.81",Cash
+26/09/2023,Travel,Uber,₹636.99,Credit card
+05/10/2023,Rent,Shree Properties,"₹85,000.00",Bank transfer
+07/10/2023,Marketing,Meta Ads,"₹22,761.64",Cash
+10/10/2023,Salaries,Payroll,"₹460,000.00",Bank transfer
+14/10/2023,Travel,Uber,"₹1,567.65",Credit card
+15/10/2023,Utilities,MSEDCL,"₹10,033.00",UPI
+15/10/2023,Office Supplies,Amazon Business,"₹3,407.60",Cash
+17/10/2023,Software,Cloud subscriptions,"₹12,500.00",Credit card
+17/10/2023,Travel,Uber,₹364.70,UPI
+21/10/2023,Meals,,"₹1,567.41",Cash
+27/10/2023,Marketing,Meta Ads,"₹5,541.29",UPI
+05/11/2023,Office Supplies,Amazon Business,"₹3,920.76",Credit card
+05/11/2023,Rent,Shree Properties,"₹85,000.00",Bank transfer
+05/11/2023,Office Supplies,Amazon Business,"₹1,410.93",Cash
+06/11/2023,Meals,Swiggy,"₹2,361.12",Cash
+09/11/2023,Marketing,Meta Ads,"₹11,373.11",Cash
+10/11/2023,Salaries,Payroll,"₹464,000.00",Bank transfer
+13/11/2023,Marketing,Meta Ads,"₹7,636.03",Cash
+15/11/2023,Utilities,MSEDCL,"₹7,314.05",UPI
+17/11/2023,Software,Cloud subscriptions,"₹12,500.00",Credit card
+21/11/2023,Marketing,Meta Ads,"₹21,609.07",Cash
+23/11/2023,Travel,Uber,"₹1,122.79",UPI
+23/11/2023,Travel,Uber,"₹1,122.79",UPI
+24/11/2023,Travel,Uber,"₹1,631.17",Cash
+27/11/2023,Meals,Swiggy,"₹1,605.93",Credit card
+02/12/2023,Marketing,Meta Ads,"₹13,508.96",UPI
+02/12/2023,Travel,Uber,₹710.82,UPI
+05/12/2023,Rent,Shree Properties,"₹85,000.00",Bank transfer
+06/12/2023,Meals,Swiggy,"₹1,651.87",Cash
+10/12/2023,Salaries,Payroll,"₹468,000.00",Bank transfer
+11/12/2023,Marketing,Meta Ads,"₹22,463.88",Credit card
+14/12/2023,Office Supplies,Amazon Business,"₹3,029.90",UPI
+15/12/2023,Utilities,MSEDCL,"₹9,184.31",UPI
+16/12/2023,Meals,Swiggy,"₹1,709.54",UPI
+17/12/2023,Software,Cloud subscriptions,"₹12,500.00",Credit card
+19/12/2023,Office Supplies,Amazon Business,"₹1,651.00",UPI
+20/12/2023,Travel,Uber,₹336.88,Credit card
+22/12/2023,Travel,Uber,"₹1,097.55",Cash
+25/12/2023,Marketing,Meta Ads,"₹20,491.27",UPI
+27/12/2023,Marketing,Meta Ads,"₹21,069.36",Cash
+05/01/2024,Rent,Shree Properties,"₹85,000.00",Bank transfer
+10/01/2024,Salaries,Payroll,"₹472,000.00",Bank transfer
+13/01/2024,Office Supplies,Amazon Business,"₹2,062.52",UPI
+13/01/2024,Meals,Swiggy,"₹1,013.83",Credit card
+15/01/2024,Utilities,MSEDCL,"₹9,892.02",UPI
+15/01/2024,Office Supplies,,₹409.95,UPI
+16/01/2024,Marketing,Meta Ads,"₹16,844.90",UPI
+16/01/2024,Meals,Swiggy,₹571.43,Credit card
+17/01/2024,Software,Cloud subscriptions,"₹12,500.00",Credit card
+19/01/2024,Travel,Uber,₹367.33,Credit card
+23/01/2024,Travel,Uber,"₹1,222.91",UPI
+24/01/2024,Travel,Uber,"₹1,738.06",Credit card
+02/02/2024,Office Supplies,Amazon Business,₹850.35,UPI
+03/02/2024,Office Supplies,Amazon Business,"₹3,854.37",Cash
+04/02/2024,Travel,Uber,"₹1,188.83",Credit card
+05/02/2024,Rent,Shree Properties,"₹85,000.00",Bank transfer
+05/02/2024,Office Supplies,Amazon Business,"₹1,683.21",Cash
+07/02/2024,Meals,Swiggy,₹946.61,Cash
+10/02/2024,Salaries,Payroll,"₹476,000.00",Bank transfer
+12/02/2024,Meals,Swiggy,"₹2,488.76",Credit card
+12/02/2024,Marketing,Meta Ads,"₹17,705.04",UPI
+15/02/2024,Utilities,MSEDCL,"₹9,201.45",UPI
+17/02/2024,Software,Cloud subscriptions,"₹12,500.00",Credit card
+22/02/2024,Travel,Uber,"₹1,376.29",Credit card
+25/02/2024,Office Supplies,Amazon Business,"₹4,195.48",Credit card
+27/02/2024,Meals,Swiggy,₹335.09,UPI
+04/03/2024,Marketing,Meta Ads,"₹8,809.70",Credit card
+05/03/2024,Rent,Shree Properties,"₹85,000.00",Bank transfer
+07/03/2024,Marketing,Meta Ads,"₹15,303.05",Credit card
+10/03/2024,Salaries,Payroll,"₹480,000.00",Bank transfer
+13/03/2024,Travel,Uber,"₹1,343.00",Credit card
+15/03/2024,Utilities,MSEDCL,"₹9,432.60",UPI
+17/03/2024,Software,Cloud subscriptions,"₹12,500.00",Credit card
+23/03/2024,Office Supplies,Amazon Business,"₹1,975.38",Cash
+24/03/2024,Office Supplies,Amazon Business,"₹3,463.83",UPI
+25/03/2024,Marketing,Meta Ads,"₹9,879.11",Credit card
+26/03/2024,Meals,Swiggy,"₹2,376.08",Credit card
+02/04/2024,Travel,Uber,₹715.06,Cash
+04/04/2024,Meals,Swiggy,"₹2,110.60",UPI
+05/04/2024,Meals,Swiggy,"₹1,284.57",UPI
+05/04/2024,Rent,Shree Properties,"₹110,000.00",Bank transfer
+06/04/2024,Travel,Uber,"₹1,502.80",UPI
+10/04/2024,Marketing,Meta Ads,"₹5,052.18",Cash
+10/04/2024,Salaries,Payroll,"₹484,000.00",Bank transfer
+15/04/2024,Utilities,MSEDCL,"₹10,101.79",UPI
+16/04/2024,Office Supplies,Amazon Business,₹484.70,Credit card
+17/04/2024,Software,Cloud subscriptions,"₹12,500.00",Credit card
+17/04/2024,Marketing,Meta Ads,"₹14,289.66",Credit card
+18/04/2024,Travel,Uber,"₹1,597.70",UPI
+19/04/2024,Travel,Uber,₹785.89,UPI
+20/04/2024,Travel,Uber,"₹1,149.09",Credit card
+26/04/2024,Travel,Uber,₹495.99,Credit card
+03/05/2024,Travel,Uber,"₹1,646.93",UPI
+05/05/2024,Meals,,"₹2,325.62",Credit card
+05/05/2024,Rent,Shree Properties,"₹110,000.00",Bank transfer
+09/05/2024,Meals,Swiggy,"₹1,704.81",Credit card
+10/05/2024,Salaries,Payroll,"₹488,000.00",Bank transfer
+14/05/2024,Marketing,Meta Ads,"₹6,969.78",UPI
+14/05/2024,Travel,Uber,₹695.34,Credit card
+15/05/2024,Utilities,MSEDCL,"₹12,094.61",UPI
+16/05/2024,Marketing,Meta Ads,"₹24,999.40",Credit card
+17/05/2024,Software,Cloud subscriptions,"₹12,500.00",Credit card
+17/05/2024,Travel,Uber,"₹1,078.08",Cash
+21/05/2024,Travel,Uber,"₹1,456.79",Credit card
+23/05/2024,Marketing,Meta Ads,"₹18,689.41",Cash
+26/05/2024,Marketing,Meta Ads,"₹15,702.86",Credit card
+02/06/2024,Office Supplies,Amazon Business,"₹3,287.35",Credit card
+04/06/2024,Travel,Uber,₹605.13,Credit card
+05/06/2024,Rent,Shree Properties,"₹110,000.00",Bank transfer
+10/06/2024,Salaries,Payroll,"₹492,000.00",Bank transfer
+14/06/2024,Meals,Swiggy,"₹1,721.07",Credit card
+15/06/2024,Utilities,MSEDCL,"₹11,278.94",UPI
+17/06/2024,Software,Cloud subscriptions,"₹12,500.00",Credit card
+19/06/2024,Meals,Swiggy,"₹1,531.13",Credit card
+26/06/2024,Office Supplies,Amazon Business,"₹4,488.24",UPI
+26/06/2024,Meals,Swiggy,"₹1,563.20",Cash
+01/07/2024,Travel,Uber,"₹1,214.88",Credit card
+01/07/2024,Marketing,Meta Ads,"₹13,538.85",Credit card
+02/07/2024,Office Supplies,Amazon Business,"₹1,589.22",UPI
+05/07/2024,Rent,Shree Properties,"₹110,000.00",Bank transfer
+10/07/2024,Salaries,Payroll,"₹496,000.00",Bank transfer
+13/07/2024,Meals,Swiggy,"₹1,497.22",UPI
+15/07/2024,Utilities,MSEDCL,"₹9,471.01",UPI
+17/07/2024,Marketing,Meta Ads,"₹23,111.36",Cash
+17/07/2024,Software,Cloud subscriptions,"₹12,500.00",Credit card
+19/07/2024,Marketing,Meta Ads,"₹22,158.67",UPI
+22/07/2024,Meals,Swiggy,"₹1,027.90",UPI
+23/07/2024,Marketing,Meta Ads,"₹22,175.09",UPI
+27/07/2024,Marketing,Meta Ads,"₹14,023.11",Cash
+27/07/2024,Meals,Swiggy,"₹1,071.51",Cash
+04/08/2024,Travel,Uber,"₹1,264.98",Credit card
+05/08/2024,Rent,Shree Properties,"₹110,000.00",Bank transfer
+10/08/2024,Meals,Swiggy,"₹1,965.44",Credit card
+10/08/2024,Salaries,Payroll,"₹500,000.00",Bank transfer
+11/08/2024,Marketing,Meta Ads,"₹6,451.83",UPI
+15/08/2024,Utilities,MSEDCL,"₹7,937.89",UPI
+16/08/2024,Office Supplies,Amazon Business,"₹4,333.43",Credit card
+16/08/2024,Meals,Swiggy,"₹1,301.23",UPI
+17/08/2024,Software,Cloud subscriptions,"₹12,500.00",Credit card
+17/08/2024,Software,Cloud subscriptions,"₹12,500.00",Credit card
+19/08/2024,Office Supplies,Amazon Business,₹802.96,Cash
+26/08/2024,Marketing,Meta Ads,"₹22,097.88",Cash
+02/09/2024,Meals,Swiggy,₹962.35,Cash
+03/09/2024,Marketing,Meta Ads,"₹14,146.79",Credit card
+04/09/2024,Marketing,Meta Ads,"₹8,097.05",Cash
+05/09/2024,Rent,Shree Properties,"₹110,000.00",Bank transfer
+10/09/2024,Salaries,Payroll,"₹504,000.00",Bank transfer
+15/09/2024,Utilities,MSEDCL,"₹9,153.51",UPI
+17/09/2024,Software,Cloud subscriptions,"₹12,500.00",Credit card
+18/09/2024,Equipment,,"₹245,000.00",Credit card
+25/09/2024,Meals,Swiggy,"₹2,382.05",UPI
+26/09/2024,Meals,Swiggy,"₹2,129.38",Cash
+26/09/2024,Office Supplies,Amazon Business,"₹1,227.45",Cash
+01/10/2024,Office Supplies,Amazon Business,"₹2,591.71",Cash
+01/10/2024,Marketing,Meta Ads,"₹22,055.46",UPI
+02/10/2024,Travel,Uber,₹924.33,Cash
+02/10/2024,Office Supplies,Amazon Business,"₹2,044.61",Cash
+05/10/2024,Rent,Shree Properties,"₹110,000.00",Bank transfer
+06/10/2024,Travel,Uber,₹954.35,UPI
+07/10/2024,Office Supplies,Amazon Business,"₹5,683.71",Cash
+08/10/2024,Meals,Swiggy,"₹1,941.64",Credit card
+08/10/2024,Office Supplies,Amazon Business,"₹5,228.82",Credit card
+10/10/2024,Salaries,Payroll,"₹508,000.00",Bank transfer
+15/10/2024,Utilities,MSEDCL,"₹9,594.43",UPI
+17/10/2024,Software,Cloud subscriptions,"₹12,500.00",Credit card
+19/10/2024,Meals,Swiggy,₹969.86,Credit card
+19/10/2024,Meals,Swiggy,"₹1,827.82",UPI
+05/11/2024,Rent,Shree Properties,"₹110,000.00",Bank transfer
+06/11/2024,Meals,Swiggy,"₹2,344.27",Cash
+08/11/2024,Meals,Swiggy,"₹1,237.89",UPI
+08/11/2024,Travel,Uber,"₹1,187.10",UPI
+10/11/2024,Salaries,Payroll,"₹512,000.00",Bank transfer
+10/11/2024,Meals,Swiggy,₹310.99,Credit card
+10/11/2024,Meals,Swiggy,₹971.92,Credit card
+11/11/2024,Travel,Uber,₹340.68,Cash
+15/11/2024,Utilities,MSEDCL,"₹8,494.67",UPI
+17/11/2024,Software,Cloud subscriptions,"₹12,500.00",Credit card
+18/11/2024,Travel,Uber,₹576.25,UPI
+19/11/2024,Marketing,Meta Ads,"₹14,493.98",UPI
+25/11/2024,Meals,Swiggy,₹613.64,Credit card
+02/12/2024,Marketing,Meta Ads,"₹7,980.93",UPI
+05/12/2024,Rent,Shree Properties,"₹110,000.00",Bank transfer
+10/12/2024,Marketing,Meta Ads,"₹6,485.62",UPI
+10/12/2024,Salaries,Payroll,"₹516,000.00",Bank transfer
+15/12/2024,Utilities,MSEDCL,"₹7,756.60",UPI
+15/12/2024,Meals,Swiggy,"₹2,333.26",Credit card
+17/12/2024,Software,Cloud subscriptions,"₹12,500.00",Credit card
+19/12/2024,Meals,Swiggy,₹854.33,Credit card
+26/12/2024,Travel,Uber,₹592.39,Cash
+27/12/2024,Office Supplies,Amazon Business,"₹1,734.33",UPI
+01/01/2025,Meals,Swiggy,"₹2,435.13",Cash
+04/01/2025,Marketing,,"₹14,449.44",Credit card
+05/01/2025,Rent,Shree Properties,"₹110,000.00",Bank transfer
+10/01/2025,Travel,Uber,"₹1,560.39",UPI
+10/01/2025,Salaries,Payroll,"₹520,000.00",Bank transfer
+15/01/2025,Utilities,MSEDCL,"₹8,496.22",UPI
+17/01/2025,Software,Cloud subscriptions,"₹12,500.00",Credit card
+21/01/2025,Marketing,Meta Ads,"₹17,796.77",Cash
+25/01/2025,Office Supplies,Amazon Business,"₹3,740.31",Credit card
+27/01/2025,Marketing,Meta Ads,"₹23,053.39",UPI
+01/02/2025,Marketing,Meta Ads,"₹7,218.48",Credit card
+02/02/2025,Office Supplies,Amazon Business,"₹1,562.55",UPI
+05/02/2025,Marketing,,"₹21,899.76",Cash
+05/02/2025,Rent,Shree Properties,"₹110,000.00",Bank transfer
+10/02/2025,Salaries,Payroll,"₹524,000.00",Bank transfer
+14/02/2025,Travel,Uber,"₹1,367.04",Cash
+15/02/2025,Utilities,MSEDCL,"₹8,844.20",UPI
+16/02/2025,Meals,Swiggy,"₹2,431.01",UPI
+17/02/2025,Software,Cloud subscriptions,"₹12,500.00",Credit card
+20/02/2025,Office Supplies,Amazon Business,"₹5,971.75",Credit card
+21/02/2025,Office Supplies,Amazon Business,"₹4,122.70",UPI
+22/02/2025,Office Supplies,Amazon Business,"₹4,136.96",UPI
+24/02/2025,Marketing,Meta Ads,"₹8,668.85",UPI
+26/02/2025,Travel,Uber,"₹1,070.43",UPI
+05/03/2025,Rent,Shree Properties,"₹110,000.00",Bank transfer
+07/03/2025,Office Supplies,Amazon Business,"₹5,279.75",Cash
+10/03/2025,Salaries,Payroll,"₹528,000.00",Bank transfer
+12/03/2025,Marketing,Meta Ads,"₹17,289.87",UPI
+13/03/2025,Travel,Uber,"₹1,580.48",Credit card
+15/03/2025,Utilities,MSEDCL,"₹9,867.46",UPI
+16/03/2025,Marketing,Meta Ads,"₹9,514.44",UPI
+17/03/2025,Software,Cloud subscriptions,"₹12,500.00",Credit card
+17/03/2025,Marketing,Meta Ads,"₹16,990.46",Cash
+18/03/2025,Marketing,Meta Ads,"₹14,301.02",Credit card
+21/03/2025,Marketing,Meta Ads,"₹8,096.32",UPI
+24/03/2025,Travel,Uber,"₹1,497.67",Credit card
+02/04/2025,Marketing,Meta Ads,"₹9,266.43",UPI
+05/04/2025,Rent,Shree Properties,"₹110,000.00",Bank transfer
+05/04/2025,Office Supplies,Amazon Business,"₹5,128.07",Cash
+10/04/2025,Salaries,Payroll,"₹532,000.00",Bank transfer
+10/04/2025,Marketing,Meta Ads,"₹5,304.13",UPI
+15/04/2025,Travel,Uber,₹807.98,Credit card
+15/04/2025,Utilities,MSEDCL,"₹12,871.85",UPI
+17/04/2025,Software,Cloud subscriptions,"₹12,500.00",Credit card
+23/04/2025,Meals,Swiggy,"₹2,215.71",UPI
+23/04/2025,Meals,Swiggy,₹404.03,Cash
+24/04/2025,Travel,Uber,₹750.88,Cash
+24/04/2025,Meals,Swiggy,"₹1,285.96",Cash
+01/05/2025,Travel,Uber,₹405.76,Cash
+05/05/2025,Rent,Shree Properties,"₹110,000.00",Bank transfer
+05/05/2025,Office Supplies,Amazon Business,"₹3,695.91",Credit card
+05/05/2025,Marketing,Meta Ads,"₹10,691.69",UPI
+09/05/2025,Office Supplies,Amazon Business,₹505.47,UPI
+10/05/2025,Salaries,Payroll,"₹536,000.00",Bank transfer
+15/05/2025,Utilities,MSEDCL,"₹11,514.34",UPI
+16/05/2025,Office Supplies,Amazon Business,"₹4,519.57",Cash
+17/05/2025,Software,Cloud subscriptions,"₹12,500.00",Credit card
+18/05/2025,Meals,Swiggy,₹563.39,Credit card
+21/05/2025,Travel,Uber,₹327.43,Credit card
+21/05/2025,Marketing,Meta Ads,"₹6,124.71",Cash
+21/05/2025,Travel,Uber,"₹1,127.54",Cash
+23/05/2025,Travel,Uber,"₹1,372.79",Cash
+01/06/2025,Travel,Uber,₹915.25,UPI
+03/06/2025,Travel,Uber,"₹1,757.57",UPI
+05/06/2025,Rent,Shree Properties,"₹110,000.00",Bank transfer
+10/06/2025,Salaries,Payroll,"₹540,000.00",Bank transfer
+10/06/2025,Meals,Swiggy,"₹1,900.95",UPI
+15/06/2025,Utilities,MSEDCL,"₹11,518.08",UPI
+17/06/2025,Software,Cloud subscriptions,"₹12,500.00",Credit card
+17/06/2025,Marketing,Meta Ads,"₹8,963.29",UPI
+24/06/2025,Marketing,Meta Ads,"₹17,807.29",Cash
+27/06/2025,Marketing,Meta Ads,"₹12,159.25",UPI
+04/07/2025,Travel,Uber,₹751.99,Credit card
+05/07/2025,Rent,Shree Properties,"₹110,000.00",Bank transfer
+05/07/2025,Office Supplies,Amazon Business,₹741.26,Credit card
+06/07/2025,Travel,Uber,"₹1,787.66",Credit card
+07/07/2025,Marketing,Meta Ads,"₹9,469.42",Credit card
+09/07/2025,Meals,Swiggy,"₹1,208.68",Credit card
+10/07/2025,Salaries,Payroll,"₹544,000.00",Bank transfer
+10/07/2025,Office Supplies,Amazon Business,"₹4,870.06",UPI
+15/07/2025,Utilities,MSEDCL,"₹11,424.67",UPI
+15/07/2025,Marketing,Meta Ads,"₹24,606.72",Credit card
+17/07/2025,Software,Cloud subscriptions,"₹12,500.00",Credit card
+22/07/2025,Meals,Swiggy,"₹1,059.98",Credit card
+23/07/2025,Travel,Uber,₹984.95,Cash
+27/07/2025,Office Supplies,Amazon Business,₹800.25,UPI
+01/08/2025,Office Supplies,Amazon Business,"₹1,393.64",Cash
+03/08/2025,Meals,Swiggy,"₹1,922.81",UPI
+05/08/2025,Marketing,Meta Ads,"₹6,517.30",UPI
+05/08/2025,Rent,Shree Properties,"₹110,000.00",Bank transfer
+05/08/2025,Rent,Shree Properties,"₹110,000.00",Bank transfer
+06/08/2025,Travel,Uber,₹837.41,Credit card
+10/08/2025,Office Supplies,Amazon Business,"₹4,062.40",Cash
+10/08/2025,Office Supplies,Amazon Business,"₹5,419.66",Cash
+10/08/2025,Salaries,Payroll,"₹548,000.00",Bank transfer
+10/08/2025,Salaries,Payroll,"₹548,000.00",Bank transfer
+13/08/2025,Marketing,Meta Ads,"₹15,132.49",Credit card
+15/08/2025,Utilities,MSEDCL,"₹9,322.10",UPI
+17/08/2025,Software,Cloud subscriptions,"₹12,500.00",Credit card
+22/08/2025,Marketing,Meta Ads,"₹19,889.90",UPI
+01/09/2025,Marketing,Meta Ads,"₹20,155.74",Cash
+05/09/2025,Rent,Shree Properties,"₹110,000.00",Bank transfer
+07/09/2025,Meals,Swiggy,"₹1,806.69",Credit card
+09/09/2025,Office Supplies,Amazon Business,"₹2,202.52",Cash
+10/09/2025,Salaries,,"₹552,000.00",Bank transfer
+13/09/2025,Office Supplies,Amazon Business,"₹2,851.78",Credit card
+14/09/2025,Travel,Uber,₹275.82,UPI
+15/09/2025,Utilities,MSEDCL,"₹8,983.36",UPI
+16/09/2025,Meals,Swiggy,"₹1,662.13",UPI
+17/09/2025,Office Supplies,Amazon Business,"₹5,957.51",UPI
+17/09/2025,Software,Cloud subscriptions,"₹12,500.00",Credit card
+19/09/2025,Marketing,Meta Ads,"₹24,395.14",Cash
+20/09/2025,Marketing,Meta Ads,"₹15,303.63",UPI
+01/10/2025,Travel,Uber,"₹1,120.24",Credit card
+05/10/2025,Rent,Shree Properties,"₹110,000.00",Bank transfer
+08/10/2025,Marketing,Meta Ads,"₹13,623.39",Credit card
+10/10/2025,Salaries,Payroll,"₹556,000.00",Bank transfer
+13/10/2025,Meals,Swiggy,"₹1,488.84",Cash
+14/10/2025,Travel,,₹981.44,Credit card
+15/10/2025,Utilities,,"₹8,414.35",UPI
+17/10/2025,Software,Cloud subscriptions,"₹12,500.00",Credit card
+20/10/2025,Office Supplies,Amazon Business,"₹4,356.20",UPI
+23/10/2025,Office Supplies,Amazon Business,"₹3,069.66",Credit card
+24/10/2025,Meals,Swiggy,₹856.99,Cash
+24/10/2025,Travel,Uber,₹497.97,Credit card
+24/10/2025,Marketing,Meta Ads,"₹16,864.25",Cash
+26/10/2025,Office Supplies,Amazon Business,"₹3,834.41",Credit card
+05/11/2025,Rent,Shree Properties,"₹110,000.00",Bank transfer
+08/11/2025,Office Supplies,Amazon Business,"₹2,146.97",Cash
+10/11/2025,Salaries,Payroll,"₹560,000.00",Bank transfer
+15/11/2025,Utilities,MSEDCL,"₹9,530.61",UPI
+17/11/2025,Software,Cloud subscriptions,"₹12,500.00",Credit card
+19/11/2025,Office Supplies,Amazon Business,"₹5,396.80",Cash
+20/11/2025,Travel,Uber,"₹1,053.40",Credit card
+22/11/2025,Office Supplies,Amazon Business,"₹4,116.42",Credit card
+24/11/2025,Marketing,Meta Ads,"₹19,453.37",Credit card
+26/11/2025,Travel,Uber,"₹1,173.69",UPI
+02/12/2025,Office Supplies,Amazon Business,"₹5,034.00",UPI
+04/12/2025,Office Supplies,Amazon Business,"₹2,125.84",Cash
+05/12/2025,Rent,Shree Properties,"₹110,000.00",Bank transfer
+10/12/2025,Salaries,Payroll,"₹564,000.00",Bank transfer
+15/12/2025,Utilities,MSEDCL,"₹8,733.48",UPI
+16/12/2025,Office Supplies,Amazon Business,"₹5,735.36",UPI
+17/12/2025,Software,Cloud subscriptions,"₹12,500.00",Credit card
+19/12/2025,Travel,Uber,"₹1,413.37",UPI
+19/12/2025,Meals,Swiggy,"₹1,591.49",Credit card
+20/12/2025,Office Supplies,Amazon Business,"₹2,190.25",Cash

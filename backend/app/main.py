@@ -4,7 +4,7 @@ import time
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.api import health
+from app.api import health, sessions
 from app.core.config import get_settings
 from app.core.errors import register_exception_handlers
 from app.core.logging import setup_logging
@@ -38,3 +38,4 @@ async def log_requests(request: Request, call_next):
 
 
 app.include_router(health.router, prefix="/api")
+app.include_router(sessions.router, prefix="/api")
