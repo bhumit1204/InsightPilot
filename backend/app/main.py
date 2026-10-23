@@ -3,8 +3,8 @@ import time
 
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
-from app.api import health, sessions
 
+from app.api import health, sessions
 from app.core.config import get_settings
 from app.core.errors import register_exception_handlers
 from app.core.logging import setup_logging
