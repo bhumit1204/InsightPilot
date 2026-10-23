@@ -8,9 +8,12 @@ from fastapi import APIRouter, File, Response, UploadFile, status
 
 from app.core.config import get_settings
 from app.core.errors import AppError
+from app.models.cleaning import CleanRequest, CleanResult
+from app.models.context import ContextResponse, ContextUpdate
 from app.models.session import SessionCreated
-from app.services import storage
+from app.services import cleaning, context_service, storage
 from app.services.csv_reader import read_csv_bytes
+from app.services.profile_service import get_profile
 
 router = APIRouter(prefix="/sessions", tags=["sessions"])
 
@@ -31,15 +34,6 @@ def read_upload(file: UploadFile) -> bytes:
     return raw
 
 
-def save_dataframe(df, path: Path) -> None:
-    # Parquet needs one type per column; mixed text columns are stored as strings.
-    df = df.copy()
-    for col in df.columns:
-        if df[col].dtype == object:
-            df[col] = df[col].astype("string")
-    df.to_parquet(path / "data.parquet", index=False)
-
-
 @router.post("", response_model=SessionCreated, status_code=status.HTTP_201_CREATED)
 def create_session(file: Annotated[UploadFile, File()]) -> SessionCreated:
     raw = read_upload(file)
@@ -47,8 +41,8 @@ def create_session(file: Annotated[UploadFile, File()]) -> SessionCreated:
 
     session_id, path = storage.create_session()
     try:
-        (path / "raw.csv").write_bytes(raw)
-        save_dataframe(result.df, path)
+        (path / storage.RAW_FILE).write_bytes(raw)
+        storage.save_dataframe(result.df, path)
 
         summary = SessionCreated(
             session_id=session_id,
@@ -72,3 +66,45 @@ def create_session(file: Annotated[UploadFile, File()]) -> SessionCreated:
 def delete_session(session_id: str) -> Response:
     storage.delete_session(session_id)
     return Response(status_code=status.HTTP_204_NO_CONTENT)
+
+
+@router.get("/{session_id}/profile")
+def read_profile(session_id: str, refresh: bool = False) -> dict:
+    """Column types, roles, statistics and data-quality warnings. Cached after the first call."""
+    return get_profile(session_id, refresh=refresh)
+
+
+@router.post("/{session_id}/clean", response_model=CleanResult)
+def clean(session_id: str, request: CleanRequest) -> CleanResult:
+    """Apply one cleaning fix, log it, and return the rebuilt profile."""
+    applied = cleaning.apply_fix(session_id, request)
+    return CleanResult(applied=applied, profile=get_profile(session_id))
+
+
+@router.get("/{session_id}/clean/log")
+def cleaning_log(session_id: str) -> dict:
+    return cleaning.get_log(session_id)
+
+
+@router.post("/{session_id}/clean/reset")
+def reset_cleaning(session_id: str) -> dict:
+    """Undo all fixes and return the profile of the original data."""
+    return cleaning.reset(session_id)
+
+
+@router.get("/{session_id}/context", response_model=ContextResponse)
+def read_context(session_id: str) -> ContextResponse:
+    """The guessed (or confirmed) context, plus the choices for each dropdown."""
+    return ContextResponse(
+        context=context_service.get_context(session_id),
+        options=context_service.get_options(session_id),
+    )
+
+
+@router.put("/{session_id}/context", response_model=ContextResponse)
+def confirm_context(session_id: str, update: ContextUpdate) -> ContextResponse:
+    """Confirm the context, optionally changing some fields."""
+    return ContextResponse(
+        context=context_service.update_context(session_id, update),
+        options=context_service.get_options(session_id),
+    )

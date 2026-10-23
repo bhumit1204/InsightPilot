@@ -1,12 +1,25 @@
+import json
 import re
 import shutil
 import uuid
 from pathlib import Path
 
+import pandas as pd
+
 from app.core.config import get_settings
 from app.core.errors import AppError
 
 SESSION_ID_PATTERN = re.compile(r"[0-9a-f]{32}")
+
+# Files inside each session folder.
+RAW_FILE = "raw.csv"  # the original upload, never changed
+DATA_FILE = "data.parquet"  # the working data (cleaning fixes are applied here)
+TYPED_FILE = "typed.parquet"  # derived: data converted to the inferred types
+PROFILE_FILE = "profile.json"  # derived: types, roles, stats, warnings
+TYPE_OVERRIDES_FILE = "type_overrides.json"  # column types the user set by hand
+CLEANING_LOG_FILE = "cleaning_log.json"  # every cleaning fix applied, in order
+CONTEXT_FILE = "context.json"  # what the data is about: domain, region, main metric
+DERIVED_FILES = (TYPED_FILE, PROFILE_FILE)
 
 
 def new_session_id() -> str:
@@ -36,3 +49,38 @@ def get_existing_session(session_id: str) -> Path:
 
 def delete_session(session_id: str) -> None:
     shutil.rmtree(get_existing_session(session_id))
+
+
+def save_dataframe(df: pd.DataFrame, folder: Path, filename: str = DATA_FILE) -> None:
+    # Parquet needs one type per column; mixed text columns are stored as strings.
+    df = df.copy()
+    for col in df.columns:
+        if df[col].dtype == object:
+            df[col] = df[col].astype("string")
+    df.to_parquet(folder / filename, index=False)
+
+
+def load_dataframe(session_id: str, filename: str = DATA_FILE) -> pd.DataFrame:
+    path = get_existing_session(session_id) / filename
+    if not path.exists():
+        raise AppError("DATA_NOT_FOUND", f"{filename} is missing for this session.", 404)
+    return pd.read_parquet(path)
+
+
+def read_json(session_id: str, filename: str) -> dict | None:
+    path = get_existing_session(session_id) / filename
+    if not path.exists():
+        return None
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
+def write_json(session_id: str, filename: str, data: dict) -> None:
+    path = get_existing_session(session_id) / filename
+    path.write_text(json.dumps(data, indent=2, ensure_ascii=False), encoding="utf-8")
+
+
+def clear_derived(session_id: str) -> None:
+    """Delete cached results so they are rebuilt from the current data."""
+    folder = get_existing_session(session_id)
+    for name in DERIVED_FILES:
+        (folder / name).unlink(missing_ok=True)
