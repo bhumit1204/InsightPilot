@@ -4,8 +4,6 @@
 
 InsightPilot is a data analyst assistant for small businesses and non-technical teams. Upload any CSV (sales, HR, expenses) and it profiles the data, builds charts, writes plain-language insights, answers your questions, and explains unusual jumps and dips using the data itself and news from that time.
 
-![Backend CI](https://github.com/<your-username>/insightpilot/actions/workflows/backend-ci.yml/badge.svg)
-
 > **Status:** early development. Phase 1 of 15 (backend foundations) is complete. See the [roadmap](#roadmap) for what works today.
 
 ---
