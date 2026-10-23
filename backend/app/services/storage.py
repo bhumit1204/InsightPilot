@@ -18,6 +18,7 @@ TYPED_FILE = "typed.parquet"  # derived: data converted to the inferred types
 PROFILE_FILE = "profile.json"  # derived: types, roles, stats, warnings
 TYPE_OVERRIDES_FILE = "type_overrides.json"  # column types the user set by hand
 CLEANING_LOG_FILE = "cleaning_log.json"  # every cleaning fix applied, in order
+CONTEXT_FILE = "context.json"  # what the data is about: domain, region, main metric
 DERIVED_FILES = (TYPED_FILE, PROFILE_FILE)
 
 

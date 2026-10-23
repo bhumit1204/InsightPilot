@@ -9,8 +9,9 @@ from fastapi import APIRouter, File, Response, UploadFile, status
 from app.core.config import get_settings
 from app.core.errors import AppError
 from app.models.cleaning import CleanRequest, CleanResult
+from app.models.context import ContextResponse, ContextUpdate
 from app.models.session import SessionCreated
-from app.services import cleaning, storage
+from app.services import cleaning, context_service, storage
 from app.services.csv_reader import read_csv_bytes
 from app.services.profile_service import get_profile
 
@@ -89,3 +90,21 @@ def cleaning_log(session_id: str) -> dict:
 def reset_cleaning(session_id: str) -> dict:
     """Undo all fixes and return the profile of the original data."""
     return cleaning.reset(session_id)
+
+
+@router.get("/{session_id}/context", response_model=ContextResponse)
+def read_context(session_id: str) -> ContextResponse:
+    """The guessed (or confirmed) context, plus the choices for each dropdown."""
+    return ContextResponse(
+        context=context_service.get_context(session_id),
+        options=context_service.get_options(session_id),
+    )
+
+
+@router.put("/{session_id}/context", response_model=ContextResponse)
+def confirm_context(session_id: str, update: ContextUpdate) -> ContextResponse:
+    """Confirm the context, optionally changing some fields."""
+    return ContextResponse(
+        context=context_service.update_context(session_id, update),
+        options=context_service.get_options(session_id),
+    )
