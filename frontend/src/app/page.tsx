@@ -1,14 +1,13 @@
-import { BackendStatus } from "@/components/backend-status";
-
 export default function Home() {
   return (
-    <main className="mx-auto flex w-full max-w-3xl flex-1 flex-col justify-center gap-4 px-6 py-24">
-      <h1 className="text-4xl font-bold tracking-tight">InsightPilot</h1>
+    <main className="mx-auto flex w-full max-w-6xl flex-1 flex-col justify-center gap-4 px-4 py-24 sm:px-6">
+      <h1 className="max-w-2xl text-4xl font-bold tracking-tight sm:text-5xl">
+        See what is in your data, what changed, and why.
+      </h1>
       <p className="max-w-prose text-lg text-ink-muted">
-        Upload a CSV and see what is in your data, what changed, and why. The upload screen
-        arrives in the next steps of Phase 4.
+        Upload a CSV of sales, expenses or staff records. The upload screen arrives in the next
+        step.
       </p>
-      <BackendStatus />
     </main>
   );
 }
