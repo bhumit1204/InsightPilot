@@ -1,0 +1,99 @@
+@import "tailwindcss";
+
+/*
+  InsightPilot design tokens.
+  The palette borrows from aeronautical navigation charts: chart blue for actions,
+  route magenta for things worth a closer look, pale terrain tints for surfaces.
+  Light theme = day chart, dark theme = night chart (deep navy, never pure black).
+*/
+
+:root {
+  --paper: #f7f8f5;
+  --surface: #ffffff;
+  --terrain: #e3ebdd;
+  --ink: #14213d;
+  --ink-muted: #51607a;
+  --rule: #cfd8cc;
+  --chart-blue: #1f5fa8;
+  --chart-blue-ink: #ffffff;
+  --route: #b5267b;
+  --ok: #2e7d4f;
+  --caution: #a86a00;
+  --danger: #b3261e;
+  --focus: #1f5fa8;
+  color-scheme: light;
+}
+
+/* Night chart: follows the system setting unless the user picked a theme. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #0e1726;
+    --surface: #152238;
+    --terrain: #1b2c44;
+    --ink: #e6ecf5;
+    --ink-muted: #9aa9c2;
+    --rule: #2a3d5a;
+    --chart-blue: #6fa8ff;
+    --chart-blue-ink: #0e1726;
+    --route: #f06bb6;
+    --ok: #5cc48a;
+    --caution: #e6b450;
+    --danger: #ff8a80;
+    --focus: #6fa8ff;
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme="dark"] {
+  --paper: #0e1726;
+  --surface: #152238;
+  --terrain: #1b2c44;
+  --ink: #e6ecf5;
+  --ink-muted: #9aa9c2;
+  --rule: #2a3d5a;
+  --chart-blue: #6fa8ff;
+  --chart-blue-ink: #0e1726;
+  --route: #f06bb6;
+  --ok: #5cc48a;
+  --caution: #e6b450;
+  --danger: #ff8a80;
+  --focus: #6fa8ff;
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-paper: var(--paper);
+  --color-surface: var(--surface);
+  --color-terrain: var(--terrain);
+  --color-ink: var(--ink);
+  --color-ink-muted: var(--ink-muted);
+  --color-rule: var(--rule);
+  --color-chart-blue: var(--chart-blue);
+  --color-chart-blue-ink: var(--chart-blue-ink);
+  --color-route: var(--route);
+  --color-ok: var(--ok);
+  --color-caution: var(--caution);
+  --color-danger: var(--danger);
+  --font-sans: "Atkinson Hyperlegible Next Variable", ui-sans-serif, system-ui, sans-serif;
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-variant-numeric: tabular-nums;
+}
+
+:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
