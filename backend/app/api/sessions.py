@@ -8,14 +8,24 @@ from fastapi import APIRouter, File, Response, UploadFile, status
 
 from app.core.config import get_settings
 from app.core.errors import AppError
-from app.models.cleaning import CleanRequest, CleanResult
+from app.models.cleaning import CleanLog, CleanRequest, CleanResult
+from app.models.common import ErrorResponse
 from app.models.context import ContextResponse, ContextUpdate
+from app.models.profile import Profile
 from app.models.session import SessionCreated
 from app.services import cleaning, context_service, storage
 from app.services.csv_reader import read_csv_bytes
 from app.services.profile_service import get_profile
 
-router = APIRouter(prefix="/sessions", tags=["sessions"])
+# Every route can fail with the shared error format; listing it gives the frontend its type.
+ERRORS = {
+    400: {"model": ErrorResponse},
+    404: {"model": ErrorResponse},
+    413: {"model": ErrorResponse},
+    415: {"model": ErrorResponse},
+}
+
+router = APIRouter(prefix="/sessions", tags=["sessions"], responses=ERRORS)
 
 
 def read_upload(file: UploadFile) -> bytes:
@@ -68,7 +78,7 @@ def delete_session(session_id: str) -> Response:
     return Response(status_code=status.HTTP_204_NO_CONTENT)
 
 
-@router.get("/{session_id}/profile")
+@router.get("/{session_id}/profile", response_model=Profile)
 def read_profile(session_id: str, refresh: bool = False) -> dict:
     """Column types, roles, statistics and data-quality warnings. Cached after the first call."""
     return get_profile(session_id, refresh=refresh)
@@ -81,12 +91,12 @@ def clean(session_id: str, request: CleanRequest) -> CleanResult:
     return CleanResult(applied=applied, profile=get_profile(session_id))
 
 
-@router.get("/{session_id}/clean/log")
+@router.get("/{session_id}/clean/log", response_model=CleanLog)
 def cleaning_log(session_id: str) -> dict:
     return cleaning.get_log(session_id)
 
 
-@router.post("/{session_id}/clean/reset")
+@router.post("/{session_id}/clean/reset", response_model=Profile)
 def reset_cleaning(session_id: str) -> dict:
     """Undo all fixes and return the profile of the original data."""
     return cleaning.reset(session_id)

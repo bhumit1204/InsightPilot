@@ -1,7 +1,5 @@
 from pydantic import BaseModel
 
-TimeGrain = str  # "daily" | "weekly" | "monthly" | "quarterly" | "yearly"
-
 
 class DataContext(BaseModel):
     domain: str
@@ -28,8 +26,13 @@ class ContextUpdate(BaseModel):
     time_grain: str | None = None
 
 
+class DomainOption(BaseModel):
+    key: str
+    label: str
+
+
 class ContextOptions(BaseModel):
-    domains: list[dict]
+    domains: list[DomainOption]
     regions: list[str]
     metrics: list[str]
     time_columns: list[str]

@@ -355,7 +355,7 @@ def update_context(session_id: str, update: ContextUpdate) -> DataContext:
     changes = update.model_dump(exclude_none=True)
 
     checks = {
-        "domain": [d["key"] for d in options.domains],
+        "domain": [d.key for d in options.domains],
         "region": options.regions,
         "primary_metric": options.metrics,
         "time_column": options.time_columns,
