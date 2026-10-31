@@ -1,6 +1,3 @@
-import json
-import shutil
-from datetime import UTC, datetime
 from pathlib import Path
 from typing import Annotated
 
@@ -8,14 +5,24 @@ from fastapi import APIRouter, File, Response, UploadFile, status
 
 from app.core.config import get_settings
 from app.core.errors import AppError
-from app.models.cleaning import CleanRequest, CleanResult
+from app.models.cleaning import CleanLog, CleanRequest, CleanResult
+from app.models.common import ErrorResponse
 from app.models.context import ContextResponse, ContextUpdate
-from app.models.session import SessionCreated
+from app.models.profile import Profile
+from app.models.session import SessionCreated, SessionInfo
 from app.services import cleaning, context_service, storage
-from app.services.csv_reader import read_csv_bytes
 from app.services.profile_service import get_profile
+from app.services.session_service import create_session_from_bytes
 
-router = APIRouter(prefix="/sessions", tags=["sessions"])
+# Every route can fail with the shared error format; listing it gives the frontend its type.
+ERRORS = {
+    400: {"model": ErrorResponse},
+    404: {"model": ErrorResponse},
+    413: {"model": ErrorResponse},
+    415: {"model": ErrorResponse},
+}
+
+router = APIRouter(prefix="/sessions", tags=["sessions"], responses=ERRORS)
 
 
 def read_upload(file: UploadFile) -> bytes:
@@ -37,29 +44,17 @@ def read_upload(file: UploadFile) -> bytes:
 @router.post("", response_model=SessionCreated, status_code=status.HTTP_201_CREATED)
 def create_session(file: Annotated[UploadFile, File()]) -> SessionCreated:
     raw = read_upload(file)
-    result = read_csv_bytes(raw)  # raises a clear AppError for bad files
+    return create_session_from_bytes(raw, Path(file.filename or "data.csv").name)
 
-    session_id, path = storage.create_session()
-    try:
-        (path / storage.RAW_FILE).write_bytes(raw)
-        storage.save_dataframe(result.df, path)
 
-        summary = SessionCreated(
-            session_id=session_id,
-            filename=Path(file.filename or "data.csv").name,
-            rows=len(result.df),
-            columns=result.df.shape[1],
-            column_names=list(result.df.columns),
-            encoding=result.encoding,
-            delimiter=result.delimiter,
-        )
-        metadata = summary.model_dump() | {"created_at": datetime.now(UTC).isoformat()}
-        (path / "metadata.json").write_text(json.dumps(metadata, indent=2), encoding="utf-8")
-    except Exception:
-        shutil.rmtree(path, ignore_errors=True)  # never leave half-written sessions behind
-        raise
-
-    return summary
+@router.get("/{session_id}", response_model=SessionInfo)
+def read_session(session_id: str) -> SessionInfo:
+    """File name, upload time and the original shape of the data."""
+    storage.get_existing_session(session_id)
+    metadata = storage.read_json(session_id, "metadata.json")
+    if metadata is None:
+        raise AppError("SESSION_NOT_FOUND", "Session not found or expired.", 404)
+    return SessionInfo(**metadata)
 
 
 @router.delete("/{session_id}", status_code=status.HTTP_204_NO_CONTENT)
@@ -68,7 +63,7 @@ def delete_session(session_id: str) -> Response:
     return Response(status_code=status.HTTP_204_NO_CONTENT)
 
 
-@router.get("/{session_id}/profile")
+@router.get("/{session_id}/profile", response_model=Profile)
 def read_profile(session_id: str, refresh: bool = False) -> dict:
     """Column types, roles, statistics and data-quality warnings. Cached after the first call."""
     return get_profile(session_id, refresh=refresh)
@@ -81,12 +76,12 @@ def clean(session_id: str, request: CleanRequest) -> CleanResult:
     return CleanResult(applied=applied, profile=get_profile(session_id))
 
 
-@router.get("/{session_id}/clean/log")
+@router.get("/{session_id}/clean/log", response_model=CleanLog)
 def cleaning_log(session_id: str) -> dict:
     return cleaning.get_log(session_id)
 
 
-@router.post("/{session_id}/clean/reset")
+@router.post("/{session_id}/clean/reset", response_model=Profile)
 def reset_cleaning(session_id: str) -> dict:
     """Undo all fixes and return the profile of the original data."""
     return cleaning.reset(session_id)

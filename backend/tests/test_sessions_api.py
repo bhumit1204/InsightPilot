@@ -59,3 +59,18 @@ def test_delete_session(temp_storage):
     assert client.delete(f"/api/sessions/{session_id}").status_code == 204
     assert not (temp_storage / session_id).exists()
     assert client.delete(f"/api/sessions/{session_id}").status_code == 404
+
+
+def test_read_session_info():
+    session_id = upload(SAMPLE_CSV).json()["session_id"]
+    response = client.get(f"/api/sessions/{session_id}")
+    assert response.status_code == 200
+    body = response.json()
+    assert body["filename"] == "sales.csv"
+    assert body["rows"] == 2
+    assert "created_at" in body
+
+
+def test_read_unknown_session_is_404():
+    response = client.get(f"/api/sessions/{'0' * 32}")
+    assert response.status_code == 404

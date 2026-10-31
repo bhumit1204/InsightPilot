@@ -4,9 +4,13 @@
 
 InsightPilot is a data analyst assistant for small businesses and non-technical teams. Upload any CSV (sales, HR, expenses) and it profiles the data, builds charts, writes plain-language insights, answers your questions, and explains unusual jumps and dips using the data itself and news from that time.
 
-> **Status:** early development. Phases 1–3 of 15 are complete: the backend accepts CSV uploads, profiles every column, offers one-click cleaning fixes and guesses what the data is about. See the [roadmap](#roadmap) for what works today.
+> **Status:** early development. Phases 1–4 of 15 are complete: upload a CSV in the browser and InsightPilot reads every column, tidies the data automatically and describes it in one plain sentence. See the [roadmap](#roadmap) for what works today.
 
 ---
+
+## Who it is for
+
+People who want a quick answer from their data and do not work with data every day: shop owners, managers, finance and HR teams. InsightPilot makes the technical decisions itself, explains what it did in plain words, and only asks a question when it truly cannot tell.
 
 ## Why InsightPilot
 
@@ -42,6 +46,8 @@ InsightPilot is built in two versions.
 | Data profile: types, roles, missing values, quality report | v1 | Done |
 | One-click cleaning fixes with undo | v1 | Done |
 | Rule-based context guess: domain, region, main metric | v1 | Done |
+| Web app: drag-and-drop upload, sample datasets, light and dark themes | v1 | Done |
+| Automatic tidy-up with undo, and a one-sentence summary of the data | v1 | Done |
 | Auto-generated charts and rule-based insights | v1 | Planned |
 | Sentence-style question builder and suggested questions | v1 | Planned |
 | "Why did this change?" driver breakdown | v1 | Planned |
@@ -56,7 +62,8 @@ InsightPilot is built in two versions.
 
 - **Backend:** Python, FastAPI, Pydantic, Pandas, PyArrow (Parquet storage)
 - **Analysis (planned):** statsmodels, ruptures, holidays
-- **Frontend (planned):** Next.js, TypeScript, Tailwind CSS, shadcn/ui, ECharts
+- **Frontend:** Next.js, TypeScript, Tailwind CSS, TanStack Query, types generated from the API schema (openapi-typescript)
+- **Charts (planned):** ECharts
 - **Tooling:** pytest, ruff, GitHub Actions
 
 ## Project structure
@@ -75,8 +82,13 @@ insightpilot/
 │   ├── requirements.txt
 │   ├── requirements-dev.txt
 │   └── pyproject.toml
-├── frontend/             # coming in Phase 4
-└── samples/              # demo datasets and their generator
+├── frontend/
+│   ├── src/app/          # pages: upload (/) and overview (/sessions/[id])
+│   ├── src/components/   # layout, upload, overview and base UI components
+│   ├── src/lib/api/      # typed API client and data hooks
+│   └── openapi.json      # API schema exported from the backend
+├── samples/              # demo datasets and their generator
+├── dev.ps1, dev.sh       # start backend and frontend together
 ```
 
 ## Getting started
@@ -84,6 +96,7 @@ insightpilot/
 ### Prerequisites
 
 - Python 3.11+
+- Node.js 20.9+
 - Git
 
 ### Run the backend
@@ -104,7 +117,33 @@ cp .env.example .env        # Windows: copy .env.example .env
 uvicorn app.main:app --reload
 ```
 
-Open http://127.0.0.1:8000/docs for the interactive API docs. Try `POST /api/sessions` with a file from `samples/`, then call `GET /api/sessions/{session_id}/profile` and `GET /api/sessions/{session_id}/context` with the returned ID.
+Open http://127.0.0.1:8000/docs for the interactive API docs.
+
+### Run the frontend
+
+In a second terminal:
+
+```bash
+cd InsightPilot/frontend
+npm install
+cp .env.example .env.local  # Windows: copy .env.example .env.local
+npm run dev
+```
+
+Open http://localhost:3000, drop a CSV on the upload area or open one of the sample datasets.
+
+After the first setup, start both together from the repo root with `.\dev.ps1` (Windows) or `./dev.sh` (macOS / Linux).
+
+### When the API changes
+
+The frontend's TypeScript types are generated from the backend, so a renamed field becomes a type error instead of a bug:
+
+```bash
+cd backend && python -m scripts.export_openapi   # writes frontend/openapi.json
+cd ../frontend && npm run api:types              # writes src/lib/api/schema.ts
+```
+
+A backend test fails if `openapi.json` is out of date.
 
 ### Sample datasets
 
@@ -119,9 +158,15 @@ See [samples/README.md](samples/README.md) for every planted event and the effec
 ### Run tests and lint
 
 ```bash
+# backend
 pytest -v
 ruff check .
 ruff format --check .
+
+# frontend
+npm run lint
+npm run typecheck
+npm run build
 ```
 
 ## API
@@ -129,7 +174,10 @@ ruff format --check .
 | Method | Endpoint | Description |
 | --- | --- | --- |
 | GET | `/api/health` | Health check |
+| GET | `/api/samples` | Demo datasets available on the server |
+| POST | `/api/samples/{key}/sessions` | Start a session from a demo dataset |
 | POST | `/api/sessions` | Upload a CSV (max 50 MB); returns a session ID, row and column counts, column names, detected encoding and delimiter |
+| GET | `/api/sessions/{session_id}` | File name, upload time and original size |
 | DELETE | `/api/sessions/{session_id}` | Delete a session and its data |
 | GET | `/api/sessions/{session_id}/profile` | Column types, roles, statistics, time grain, gaps and quality warnings (cached; add `?refresh=true` to rebuild) |
 | POST | `/api/sessions/{session_id}/clean` | Apply one cleaning fix and return the rebuilt profile |
@@ -164,8 +212,9 @@ Every column gets a **type** (numeric, date, yes/no, text) and a **role**:
 | Category | Text with a few distinct values | `region`, `vendor` |
 | Identifier | Unique per row; left out of charts | `order_line_id` |
 | Free text | Long, varied text | comments |
+| Ignored | The same value in every row; left out of analysis | a `country` column that is always India |
 
-Numbers like `₹1,23,456.00`, `12.5%` and `(1,200)` are parsed, and dates are matched against 16 common formats. A column only counts as numeric or date if at least 95% of its values parse. Ambiguous dates such as `03/04/2024` default to day-first and are flagged for the user to confirm.
+Numbers like `₹1,23,456.00`, `12.5%` and `(1,200)` are parsed, and dates are matched against 16 common formats. A column only counts as numeric or date if at least 95% of its values parse. Ambiguous dates such as `03/04/2024` are read day first, the norm in India, and the overview offers a one-click switch to month first.
 
 The quality report covers missing values, duplicates, outliers (IQR rule), constant columns and missing periods in time series.
 
@@ -187,6 +236,20 @@ Example request:
 
 Every fix is logged, and the original upload is never changed, so all fixes can be undone.
 
+### Automatic tidy-up
+
+The target user wants a quick answer, not a data-cleaning session, so InsightPilot makes the safe decisions itself and explains each one in plain words on the overview page:
+
+| Situation | What happens automatically |
+| --- | --- |
+| Exact duplicate rows | Removed on upload, listed with an Undo button |
+| Ambiguous dates | Read day first, with a one-click switch to month first |
+| A column with one value | Left out of analysis |
+| Mostly empty columns | Empty cells are skipped in calculations, with a short note |
+| Missing dates in a time series | Listed, for example "No data for 10 Aug 2022 to 12 Aug 2022" |
+
+Anything that would change a value, such as filling empty cells, is never done automatically. Set `AUTO_CLEAN=false` in `backend/.env` to turn the automatic step off.
+
 ### Context guess
 
 Without any AI, InsightPilot guesses the domain from column names, the region from currency symbols and place names, and the main metric from money-like column names. On the sample datasets:
@@ -197,7 +260,7 @@ Without any AI, InsightPilot guesses the domain from column names, the region fr
 | HR employees | HR and people | India (INR) | `annual_salary_inr` | Monthly |
 | Business expenses | Business expenses | India (INR) | `amount` | Monthly |
 
-The user always confirms or edits the guess, and each guess comes with its reasons.
+The guess becomes the overview's title, for example "Retail sales, India", with a Change link. Only when the guess is weak does the app ask the user to pick the closest match.
 
 ### Session storage
 
@@ -210,7 +273,7 @@ Each upload gets its own folder:
 | `typed.parquet` | Data converted to the detected types |
 | `profile.json` | Types, roles, statistics and warnings |
 | `context.json` | Domain, region, main metric and time grain |
-| `type_overrides.json`, `cleaning_log.json` | Type choices and fixes made by the user |
+| `type_overrides.json`, `cleaning_log.json` | Type choices and fixes, made automatically or by the user |
 
 All errors use one format:
 
@@ -226,8 +289,8 @@ All errors use one format:
 | 1 | Backend foundations | v1 | Done |
 | 2 | Upload and storage | v1 | Done |
 | 3 | Profiling, cleaning and rule-based context | v1 | Done |
-| 4 | Frontend foundations | v1 | Next |
-| 5 | Charts and template insights | v1 | |
+| 4 | Frontend foundations | v1 | Done |
+| 5 | Charts and template insights | v1 | Next |
 | 6 | Intent engine and question builder | v1 | |
 | 7 | "Why did this change?" analysis | v1 | |
 | 8 | Anomaly detection and internal checks | v1 | |
@@ -241,8 +304,9 @@ All errors use one format:
 
 ## Design principles
 
+- **Decide automatically, explain plainly.** The app makes safe choices itself, says what it did, and asks only when it truly cannot tell.
 - **Numbers come from code, not from AI.** Insights and answers are computed with Pandas; language models only interpret and phrase.
-- **Your data stays private.** Raw rows are never sent to an AI provider, and uploaded data is deleted after 24 hours.
+- **Your data stays private.** Raw rows are never sent to an AI provider, and each upload can be deleted at any time. Automatic deletion after 24 hours arrives in Phase 10.
 - **Context, not causation.** News is shown as possible context for a change, never as proof of its cause.
 
 ## License

@@ -44,11 +44,12 @@ def _fill_value(session_id: str, df: pd.DataFrame, req: CleanRequest, column: st
     return round(float(value), 4)
 
 
-def apply_fix(session_id: str, req: CleanRequest) -> dict:
+def apply_fix(session_id: str, req: CleanRequest, auto: bool = False) -> dict:
+    """Apply one fix. auto=True marks fixes InsightPilot made by itself, so the UI can say so."""
     df = storage.load_dataframe(session_id)
     rows_before, columns_before = df.shape
     overrides = storage.read_json(session_id, storage.TYPE_OVERRIDES_FILE) or {}
-    entry: dict = {"action": req.action}
+    entry: dict = {"action": req.action, "auto": auto}
 
     if req.action == "drop_duplicates":
         df = df.drop_duplicates().reset_index(drop=True)
@@ -120,3 +121,15 @@ def reset(session_id: str) -> dict:
         (folder / name).unlink(missing_ok=True)
     storage.clear_derived(session_id)
     return get_profile(session_id)
+
+
+def auto_clean(session_id: str) -> list[dict]:
+    """Fixes that are safe to make without asking. Today: remove exact duplicate rows.
+
+    Anything that would change a value (like filling empty cells) is left to the user.
+    """
+    df = storage.load_dataframe(session_id)
+    applied = []
+    if df.duplicated().any():
+        applied.append(apply_fix(session_id, CleanRequest(action="drop_duplicates"), auto=True))
+    return applied

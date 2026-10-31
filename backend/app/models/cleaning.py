@@ -2,6 +2,8 @@ from typing import Any, Literal
 
 from pydantic import BaseModel
 
+from app.models.profile import Profile
+
 CleanAction = Literal[
     "drop_duplicates",
     "drop_missing_rows",
@@ -43,5 +45,9 @@ class CleanRequest(BaseModel):
 
 
 class CleanResult(BaseModel):
-    applied: dict
-    profile: dict
+    applied: dict[str, Any]
+    profile: Profile
+
+
+class CleanLog(BaseModel):
+    fixes: list[dict[str, Any]]
