@@ -1134,7 +1134,8 @@
               "metric",
               "category",
               "identifier",
-              "free_text"
+              "free_text",
+              "ignored"
             ],
             "title": "Role"
           },
@@ -1737,6 +1738,13 @@
             },
             "type": "array",
             "title": "Free Text"
+          },
+          "ignored": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Ignored"
           }
         },
         "type": "object",
@@ -1745,7 +1753,8 @@
           "metric",
           "category",
           "identifier",
-          "free_text"
+          "free_text",
+          "ignored"
         ],
         "title": "Roles"
       },

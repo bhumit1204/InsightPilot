@@ -294,7 +294,7 @@ export interface components {
              * Role
              * @enum {string}
              */
-            role: "time" | "metric" | "category" | "identifier" | "free_text";
+            role: "time" | "metric" | "category" | "identifier" | "free_text" | "ignored";
             details: components["schemas"]["ColumnDetails"];
             stats: components["schemas"]["ColumnStats"];
         };
@@ -464,6 +464,8 @@ export interface components {
             identifier: string[];
             /** Free Text */
             free_text: string[];
+            /** Ignored */
+            ignored: string[];
         };
         /** SampleDataset */
         SampleDataset: {
