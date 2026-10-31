@@ -10,6 +10,8 @@ import type { components, paths } from "./schema";
 
 type Schemas = components["schemas"];
 export type SessionCreated = Schemas["SessionCreated"];
+export type SessionInfo = Schemas["SessionInfo"];
+export type SampleDataset = Schemas["SampleDataset"];
 export type Profile = Schemas["Profile"];
 export type ColumnProfile = Schemas["ColumnProfile"];
 export type QualityWarning = Schemas["QualityWarning"];
@@ -20,6 +22,9 @@ export type DataContext = Schemas["DataContext"];
 export type ContextOptions = Schemas["ContextOptions"];
 export type ContextResponse = Schemas["ContextResponse"];
 export type ContextUpdate = Schemas["ContextUpdate"];
+
+/** Must match MAX_UPLOAD_MB on the backend; checked here first so people wait less. */
+export const MAX_UPLOAD_MB = 50;
 
 export const API_URL = (process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000").replace(
   /\/$/,

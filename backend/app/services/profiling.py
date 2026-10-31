@@ -31,12 +31,16 @@ def _num(value) -> float | None:
 
 
 def assign_role(info: ColumnType, series: pd.Series) -> str:
-    """time, metric, category, identifier or free_text."""
+    """time, metric, category, identifier, free_text or ignored."""
     non_null = series.dropna()
     n = len(non_null)
     n_unique = int(non_null.nunique())
     unique_ratio = n_unique / n if n else 0.0
     id_like_name = bool(ID_NAME_PATTERN.search(info.name))
+
+    # One value in every row tells nothing: leave it out of charts and analysis.
+    if n_unique <= 1:
+        return "ignored"
 
     if info.inferred_type == "datetime":
         return "time"
@@ -157,7 +161,11 @@ def build_warnings(columns: list[dict], duplicates: int, time: dict | None) -> l
         warnings.append(
             {
                 "code": "DUPLICATE_ROWS",
-                "message": f"{duplicates} duplicate rows found.",
+                "message": (
+                    f"{duplicates} rows are exact copies of another row."
+                    if duplicates > 1
+                    else "1 row is an exact copy of another row."
+                ),
                 "fix": "drop_duplicates",
             }
         )
@@ -206,7 +214,11 @@ def build_warnings(columns: list[dict], duplicates: int, time: dict | None) -> l
             {
                 "code": "TIME_GAPS",
                 "column": time["column"],
-                "message": f"{time['missing_periods']} {time['grain']} periods have no data.",
+                "message": (
+                    f"{time['missing_periods']} {time['grain']} periods have no data."
+                    if time["missing_periods"] > 1
+                    else f"1 {time['grain']} period has no data."
+                ),
             }
         )
     return warnings
@@ -247,7 +259,7 @@ def build_profile(
         "time": time,
         "roles": {
             role: [c["name"] for c in columns if c["role"] == role]
-            for role in ("time", "metric", "category", "identifier", "free_text")
+            for role in ("time", "metric", "category", "identifier", "free_text", "ignored")
         },
         "column_details": columns,
         "warnings": build_warnings(columns, duplicates, time),

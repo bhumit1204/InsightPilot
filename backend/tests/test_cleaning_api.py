@@ -21,6 +21,7 @@ MESSY_CSV = (
 @pytest.fixture(autouse=True)
 def temp_storage(tmp_path, monkeypatch):
     monkeypatch.setattr(get_settings(), "storage_dir", tmp_path)
+    monkeypatch.setattr(get_settings(), "auto_clean", False)  # these tests apply fixes by hand
 
 
 @pytest.fixture
@@ -116,3 +117,21 @@ def test_log_and_reset(session_id):
     assert profile["rows"] == 5
     assert "pincode" in [c["name"] for c in profile["column_details"]]
     assert client.get(f"/api/sessions/{session_id}/clean/log").json() == {"fixes": []}
+
+
+def test_upload_removes_exact_duplicates_automatically(monkeypatch):
+    monkeypatch.setattr(get_settings(), "auto_clean", True)
+    response = client.post("/api/sessions", files={"file": ("e.csv", MESSY_CSV, "text/csv")})
+    session_id = response.json()["session_id"]
+    assert response.json()["rows"] == 5  # as uploaded
+
+    profile = client.get(f"/api/sessions/{session_id}/profile").json()
+    assert profile["rows"] == 4
+    assert profile["duplicate_rows"] == 0
+    log = client.get(f"/api/sessions/{session_id}/clean/log").json()
+    assert log["fixes"][0]["action"] == "drop_duplicates"
+    assert log["fixes"][0]["auto"] is True
+
+    # Undo brings the duplicate back, and it is not removed again.
+    restored = client.post(f"/api/sessions/{session_id}/clean/reset").json()
+    assert restored["duplicate_rows"] == 1

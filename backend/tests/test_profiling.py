@@ -83,3 +83,11 @@ def test_hr_sample_profile():
     assert 2 <= rating["missing_pct"] <= 6
     exit_date = column(profile, "exit_date")["stats"]
     assert exit_date["missing_pct"] > 50
+
+
+def test_constant_columns_are_ignored():
+    df = pd.DataFrame({"store": ["A"] * 4, "sales": [1, 2, 3, 4], "region": list("NSNE")})
+    profile, _ = build_profile(df)
+    assert profile["roles"]["ignored"] == ["store"]
+    assert column(profile, "store")["role"] == "ignored"
+    assert "CONSTANT_COLUMN" in {w["code"] for w in profile["warnings"]}

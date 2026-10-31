@@ -16,7 +16,9 @@ import {
 /** One place for cache keys, so updates and invalidations always hit the right entry. */
 export const queryKeys = {
   health: ["health"] as const,
+  samples: ["samples"] as const,
   session: (id: string) => ["session", id] as const,
+  info: (id: string) => ["session", id, "info"] as const,
   profile: (id: string) => ["session", id, "profile"] as const,
   context: (id: string) => ["session", id, "context"] as const,
   cleanLog: (id: string) => ["session", id, "clean-log"] as const,
@@ -33,6 +35,21 @@ export function useHealth() {
   });
 }
 
+export function useSamples() {
+  return useQuery({
+    queryKey: queryKeys.samples,
+    queryFn: () => unwrap(api.GET("/api/samples")),
+    staleTime: Infinity, // the list only changes when the server is redeployed
+  });
+}
+
+export function useStartFromSample() {
+  return useMutation({
+    mutationFn: (key: string) =>
+      unwrap(api.POST("/api/samples/{key}/sessions", { params: { path: { key } } })),
+  });
+}
+
 export function useUploadCsv() {
   const [progress, setProgress] = useState(0);
   const mutation = useMutation({
@@ -42,6 +59,14 @@ export function useUploadCsv() {
     },
   });
   return { ...mutation, progress };
+}
+
+export function useSessionInfo(sessionId: string) {
+  return useQuery({
+    queryKey: queryKeys.info(sessionId),
+    queryFn: () => unwrap(api.GET("/api/sessions/{session_id}", path(sessionId))),
+    staleTime: Infinity, // never changes after upload
+  });
 }
 
 export function useProfile(sessionId: string) {

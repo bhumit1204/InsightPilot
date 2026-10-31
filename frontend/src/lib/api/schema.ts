@@ -45,7 +45,11 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get?: never;
+        /**
+         * Read Session
+         * @description File name, upload time and the original shape of the data.
+         */
+        get: operations["read_session_api_sessions__session_id__get"];
         put?: never;
         post?: never;
         /** Delete Session */
@@ -150,6 +154,46 @@ export interface paths {
          */
         put: operations["confirm_context_api_sessions__session_id__context_put"];
         post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/samples": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List Samples
+         * @description Demo datasets available on this server.
+         */
+        get: operations["list_samples_api_samples_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/samples/{key}/sessions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Start From Sample
+         * @description Start a new session from a demo dataset, exactly as if it had been uploaded.
+         */
+        post: operations["start_from_sample_api_samples__key__sessions_post"];
         delete?: never;
         options?: never;
         head?: never;
@@ -421,6 +465,23 @@ export interface components {
             /** Free Text */
             free_text: string[];
         };
+        /** SampleDataset */
+        SampleDataset: {
+            /** Key */
+            key: string;
+            /** Title */
+            title: string;
+            /** Description */
+            description: string;
+            /** Filename */
+            filename: string;
+            /** Rows */
+            rows: number;
+            /** Columns */
+            columns: number;
+            /** Size Bytes */
+            size_bytes: number;
+        };
         /** SessionCreated */
         SessionCreated: {
             /** Session Id */
@@ -437,6 +498,28 @@ export interface components {
             encoding: string;
             /** Delimiter */
             delimiter: string;
+        };
+        /**
+         * SessionInfo
+         * @description What was uploaded. rows and columns are as uploaded, before any cleaning.
+         */
+        SessionInfo: {
+            /** Session Id */
+            session_id: string;
+            /** Filename */
+            filename: string;
+            /** Rows */
+            rows: number;
+            /** Columns */
+            columns: number;
+            /** Column Names */
+            column_names: string[];
+            /** Encoding */
+            encoding: string;
+            /** Delimiter */
+            delimiter: string;
+            /** Created At */
+            created_at: string;
         };
         /** TimeGap */
         TimeGap: {
@@ -539,6 +622,73 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["SessionCreated"];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Content Too Large */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Unsupported Media Type */
+            415: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    read_session_api_sessions__session_id__get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                session_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SessionInfo"];
                 };
             };
             /** @description Bad Request */
@@ -1047,6 +1197,75 @@ export interface operations {
             };
             /** @description Unsupported Media Type */
             415: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    list_samples_api_samples_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SampleDataset"][];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    start_from_sample_api_samples__key__sessions_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                key: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SessionCreated"];
+                };
+            };
+            /** @description Not Found */
+            404: {
                 headers: {
                     [name: string]: unknown;
                 };

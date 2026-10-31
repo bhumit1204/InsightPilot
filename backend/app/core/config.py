@@ -13,7 +13,11 @@ class Settings(BaseSettings):
     allowed_origins: str = "http://localhost:3000"
 
     max_upload_mb: int = 50
+    # Apply safe fixes (removing exact duplicate rows) right after upload; each one can be undone.
+    auto_clean: bool = True
     storage_dir: Path = Path("sessions")
+    # Demo datasets shown on the upload page (the repo's samples/ folder by default).
+    samples_dir: Path = Path(__file__).resolve().parents[3] / "samples"
 
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8")
 

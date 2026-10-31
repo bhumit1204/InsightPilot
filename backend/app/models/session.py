@@ -9,3 +9,9 @@ class SessionCreated(BaseModel):
     column_names: list[str]
     encoding: str
     delimiter: str
+
+
+class SessionInfo(SessionCreated):
+    """What was uploaded. rows and columns are as uploaded, before any cleaning."""
+
+    created_at: str

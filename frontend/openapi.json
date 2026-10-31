@@ -108,6 +108,87 @@
       }
     },
     "/api/sessions/{session_id}": {
+      "get": {
+        "tags": [
+          "sessions"
+        ],
+        "summary": "Read Session",
+        "description": "File name, upload time and the original shape of the data.",
+        "operationId": "read_session_api_sessions__session_id__get",
+        "parameters": [
+          {
+            "name": "session_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Session Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SessionInfo"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Content Too Large"
+          },
+          "415": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unsupported Media Type"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
       "delete": {
         "tags": [
           "sessions"
@@ -693,6 +774,95 @@
               }
             },
             "description": "Unsupported Media Type"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/samples": {
+      "get": {
+        "tags": [
+          "samples"
+        ],
+        "summary": "List Samples",
+        "description": "Demo datasets available on this server.",
+        "operationId": "list_samples_api_samples_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/SampleDataset"
+                  },
+                  "type": "array",
+                  "title": "Response List Samples Api Samples Get"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/samples/{key}/sessions": {
+      "post": {
+        "tags": [
+          "samples"
+        ],
+        "summary": "Start From Sample",
+        "description": "Start a new session from a demo dataset, exactly as if it had been uploaded.",
+        "operationId": "start_from_sample_api_samples__key__sessions_post",
+        "parameters": [
+          {
+            "name": "key",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Key"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SessionCreated"
+                }
+              }
+            }
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
           },
           "422": {
             "description": "Validation Error",
@@ -1579,6 +1749,49 @@
         ],
         "title": "Roles"
       },
+      "SampleDataset": {
+        "properties": {
+          "key": {
+            "type": "string",
+            "title": "Key"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "description": {
+            "type": "string",
+            "title": "Description"
+          },
+          "filename": {
+            "type": "string",
+            "title": "Filename"
+          },
+          "rows": {
+            "type": "integer",
+            "title": "Rows"
+          },
+          "columns": {
+            "type": "integer",
+            "title": "Columns"
+          },
+          "size_bytes": {
+            "type": "integer",
+            "title": "Size Bytes"
+          }
+        },
+        "type": "object",
+        "required": [
+          "key",
+          "title",
+          "description",
+          "filename",
+          "rows",
+          "columns",
+          "size_bytes"
+        ],
+        "title": "SampleDataset"
+      },
       "SessionCreated": {
         "properties": {
           "session_id": {
@@ -1624,6 +1837,58 @@
           "delimiter"
         ],
         "title": "SessionCreated"
+      },
+      "SessionInfo": {
+        "properties": {
+          "session_id": {
+            "type": "string",
+            "title": "Session Id"
+          },
+          "filename": {
+            "type": "string",
+            "title": "Filename"
+          },
+          "rows": {
+            "type": "integer",
+            "title": "Rows"
+          },
+          "columns": {
+            "type": "integer",
+            "title": "Columns"
+          },
+          "column_names": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Column Names"
+          },
+          "encoding": {
+            "type": "string",
+            "title": "Encoding"
+          },
+          "delimiter": {
+            "type": "string",
+            "title": "Delimiter"
+          },
+          "created_at": {
+            "type": "string",
+            "title": "Created At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "session_id",
+          "filename",
+          "rows",
+          "columns",
+          "column_names",
+          "encoding",
+          "delimiter",
+          "created_at"
+        ],
+        "title": "SessionInfo",
+        "description": "What was uploaded. rows and columns are as uploaded, before any cleaning."
       },
       "TimeGap": {
         "properties": {

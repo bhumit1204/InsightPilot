@@ -5,7 +5,7 @@ from typing import Literal
 from pydantic import BaseModel, ConfigDict
 
 ColumnTypeName = Literal["numeric", "datetime", "boolean", "text"]
-ColumnRole = Literal["time", "metric", "category", "identifier", "free_text"]
+ColumnRole = Literal["time", "metric", "category", "identifier", "free_text", "ignored"]
 
 
 class TopValue(BaseModel):
@@ -75,6 +75,7 @@ class Roles(BaseModel):
     category: list[str]
     identifier: list[str]
     free_text: list[str]
+    ignored: list[str]
 
 
 class QualityWarning(BaseModel):
